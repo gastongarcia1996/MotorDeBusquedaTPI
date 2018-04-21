@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<header style="background-color:DodgerBlue; height:5em; text-align: center">
+<header style="background-color:DodgerBlue; height:7em; text-align: center">
     <br />
-    <h2 style="color:white; ">Google</h2>
+    <h2 style="color:white; "><strong>Google<strong></h2>
 </header>
