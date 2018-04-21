@@ -33,28 +33,32 @@
     <body>
         <jsp:include page="header.jsp"/>
         <br />
-        <div style="position: relative; left: 2em;">
-            <p class="font-weight-bold">Presentacion del motor de busqueda para la materia DLC</p>
+        <div style="position: relative; left: 1em;">
+            <h4><strong>Presentacion del motor de busqueda para la materia DLC</strong></h4>
         </div>
-        <div style="position: relative; left: 3em;">
-            <div class="form-group row">
-                <div class="col-xs-3">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="">Ingrese la consulta</span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Ingrese la consulta">            
-                        <button type="button" class="btn btn-primary">Buscar</button>                   
-                    </div>   
-                </div>
-                <div class="col-xs-3" style="position: relative; left:38%">
-                    <label><strong>Indexar los archivos:</strong></label>
-                    <button type="button" class="btn btn-danger" >
-                        Indexar
-                    </button>
-                </div>
-            </div>          
+        <div class="row">
+            <div class="col-md-9">
+                <div class="input-group" style="width: 45em">
+
+                    <span class="input-group-addon" id="basic-addon1"><strong>Ingrese la consulta</strong></span>                 
+                    <input type="text" class="form-control" placeholder="Ingrese la consulta" aria-describedby="basic-addon1">                   
+                    <span class="input-group-btn" aria-hidden="true"><button class="btn btn-primary"> 
+                    <span class="glyphicon glyphicon-search"></span> Buscar</button></span>                  
+                </div>   
+
+            </div>
+            <div class="col-md-3">
+                <label><strong>Indexar los archivos:</strong></label>
+                <button type="button" class="btn btn-danger" >
+                    <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                    Indexar
+                </button>
+            </div>
+
         </div>
-        <jsp:include page="footer.jsp"/>
-    </body>
+    </div>
+</div>
+<br />
+<jsp:include page="footer.jsp"/>
+</body>
 </html>
