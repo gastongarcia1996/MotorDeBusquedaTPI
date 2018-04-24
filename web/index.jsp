@@ -50,14 +50,14 @@
             </div>
             <div class="col-md-3">
                 <label><strong>Indexar los archivos:</strong></label>
-                <button type="button" class="btn btn-danger" >
+                <button type="button" class="btn btn-danger" onclick="cargar_tabla()" >
                     <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
                     Indexar
                 </button>
             </div>
 
         </div>
-        <div class="div_carga">
+        <div id="div_carga">
 
 
         </div>
@@ -65,20 +65,27 @@
     <jsp:include page="footer.jsp"/>
 
     <script>
-        <table>
-            <thead>
-                <div class="col-md-4"><h4>Nombre</h4></div>
-                <div class="col-md-4"><h4>Peso</h4></div>
-            </thead>
-            <tbody>
-                <c:forEach items="${docs}" var="doc">
-                    <tr>
-                        <td class="col-md-4">${doc.nombre}</td>
-                        <td class="col-md-4">${doc.peso}</td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+        function cargar_tabla()
+        {
+            var div = docuemnt.getElementById("div_carga");
+            
+            var html = "<table>";
+            html += "<thead>";
+            html += "<div class="col-md-4"><h4>Nombre</h4></div>";
+            html += "<div class="col-md-4"><h4>Peso</h4></div>";
+            html += "</thead>";
+            html += "<tbody>";
+            html += "<c:forEach items="${docs}" var="doc">";
+            html += "<tr>";
+            html += "<td class="col-md-4">${doc.nombre}</td>";
+            html += "<td class="col-md-4">${doc.peso}</td>";"
+            html += "</tr>";
+            html += "</c:forEach>";
+            html += "</tbody>";
+            html += "</table>";
+            
+            div.innerHTML = html; 
+        }
                    
     </script>
 </body>
