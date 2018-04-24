@@ -4,6 +4,7 @@
     Author     : dlcusr
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
@@ -43,7 +44,7 @@
                     <span class="input-group-addon" id="basic-addon1"><strong>Ingrese la consulta</strong></span>                 
                     <input type="text" class="form-control" placeholder="Ingrese la consulta" aria-describedby="basic-addon1">                   
                     <span class="input-group-btn" aria-hidden="true"><button class="btn btn-primary"> 
-                    <span class="glyphicon glyphicon-search"></span> Buscar</button></span>                  
+                            <span class="glyphicon glyphicon-search"></span> Buscar</button></span>                  
                 </div>   
 
             </div>
@@ -56,13 +57,29 @@
             </div>
 
         </div>
-        
-        <div class="row">
-            
+        <div class="div_carga">
+
+
         </div>
-    </div>
-</div>
-<br />
-<jsp:include page="footer.jsp"/>
+    <br />
+    <jsp:include page="footer.jsp"/>
+
+    <script>
+        <table>
+            <thead>
+                <div class="col-md-4"><h4>Nombre</h4></div>
+                <div class="col-md-4"><h4>Peso</h4></div>
+            </thead>
+            <tbody>
+                <c:forEach items="${docs}" var="doc">
+                    <tr>
+                        <td class="col-md-4">${doc.nombre}</td>
+                        <td class="col-md-4">${doc.peso}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+                   
+    </script>
 </body>
 </html>

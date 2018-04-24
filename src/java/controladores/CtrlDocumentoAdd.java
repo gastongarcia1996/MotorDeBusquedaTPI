@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import clases.Documento;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import web.ErrorMsg;
 
 /**
@@ -37,6 +39,7 @@ public class CtrlDocumentoAdd extends HttpServlet {
         
         String titulo = "No se pudo crear el documento";
         ErrorMsg errorMsg = null;
+        String dest = "/index.jsp";
         
         try
         {
@@ -47,9 +50,12 @@ public class CtrlDocumentoAdd extends HttpServlet {
         {
             errorMsg = new ErrorMsg(titulo, e.getMessage());
             request.setAttribute("errorMsg", errorMsg);
+            dest = "/error.jsp";
         }
         
-        
+        ServletContext app = this.getServletContext();
+        RequestDispatcher disp = app.getRequestDispatcher(dest);
+        disp.forward(request, response);
        
     }
 

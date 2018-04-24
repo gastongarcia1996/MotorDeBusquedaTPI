@@ -14,6 +14,7 @@ public class Documento
     private int id_doc;
     private String nombre_doc;
     private int frecuencia_termino;
+    private int peso;
 
     public String getNombre_doc() 
     {
@@ -44,8 +45,19 @@ public class Documento
     {
         this.frecuencia_termino = frecuencia_termino;
     }
-          
-    public String to_string()
+     
+    public int getPeso()
+    {
+        return this.peso;
+    }
+    
+    public void setPeso(int peso)
+    {
+        this.peso = peso;
+    }
+    
+    @Override
+    public String toString()
     {
         StringBuilder sb = new StringBuilder();
         
