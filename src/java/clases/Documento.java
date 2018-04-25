@@ -16,6 +16,16 @@ public class Documento
     private int frecuencia_termino;
     private int peso;
 
+    public Documento()
+    {
+    }
+
+    public Documento(int id_doc, String nombre_doc) 
+    {
+        this.id_doc = id_doc;
+        this.nombre_doc = nombre_doc;
+    }
+  
     public String getNombre_doc() 
     {
         return nombre_doc;

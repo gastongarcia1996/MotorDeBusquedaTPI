@@ -43,43 +43,60 @@
 
                     <span class="input-group-addon" id="basic-addon1"><strong>Ingrese la consulta</strong></span>                 
                     <input type="text" class="form-control" placeholder="Ingrese la consulta" aria-describedby="basic-addon1">                   
-                    <span class="input-group-btn" aria-hidden="true"><button class="btn btn-primary"> 
+                    <span class="input-group-btn" aria-hidden="true"><button class="btn btn-primary" onclick="cargar_tabla()"> 
                             <span class="glyphicon glyphicon-search"></span> Buscar</button></span>                  
                 </div>   
 
             </div>
             <div class="col-md-3">
                 <label><strong>Indexar los archivos:</strong></label>
-                <button type="button" class="btn btn-danger" onclick="cargar_tabla()" >
+                <button type="button" class="btn btn-danger">
                     <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
                     Indexar
                 </button>
             </div>
 
         </div>
-        <div id="div_carga">
-
-
+        <div class="row">
+            <div class="col-md-6" id="div_carga">
+                <table class="table table-hover">
+                    <thead>
+                    <th><h4>Nombre</h4></th>
+                 
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${documentos}" var="doc">
+                            <tr>
+                                <td>${doc.nombre_doc}</td>                              
+                            </tr>
+                        </c:forEach>
+                            
+                    </tbody>
+                </table>
+            </div>
         </div>
     <br />
     <jsp:include page="footer.jsp"/>
 
-    <script>
+    <script type="text/javascript">
         function cargar_tabla()
         {
-            var div = docuemnt.getElementById("div_carga");
+            var div = document.getElementById("div_carga");
             
-            var html = "<table>";
+            var html = "<table class=" + "'" + "table table-hover'" + ">";
             html += "<thead>";
-            html += "<div class="col-md-4"><h4>Nombre</h4></div>";
-            html += "<div class="col-md-4"><h4>Peso</h4></div>";
+            html += "<th><h4>Nombre</h4></th>";
+            //html += "<th><h4>Peso</h4></th>";
+            //html += "<th><h4>Frecuencia</h4></th>"
             html += "</thead>";
             html += "<tbody>";
-            html += "<c:forEach items="${docs}" var="doc">";
+            //html += "<" + "c:forEach items=" + "$" + "{" + "docs" + "}" + "'" + "var=" + "doc" + ">";
+            html += "<c:forEach items="${documentos}" var="doc">";
             html += "<tr>";
-            html += "<td class="col-md-4">${doc.nombre}</td>";
-            html += "<td class="col-md-4">${doc.peso}</td>";"
+            html += "<td>${doc.nombre_doc}</td>";
+            //html += "<td></td>";
             html += "</tr>";
+            //html += "<" + "/" + "c:forEach>";
             html += "</c:forEach>";
             html += "</tbody>";
             html += "</table>";

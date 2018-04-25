@@ -5,7 +5,10 @@
  */
 package clases;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  *
@@ -13,46 +16,53 @@ import java.util.Hashtable;
  */
 public abstract class Hardcodeo 
 {
-    private static Hashtable alumnos = new Hashtable();
+    private static Hashtable documentos = new Hashtable();
     
-    public static void populateAlumnos() throws Exception
+    public static void populateDocumentos() throws Exception
     {
         
-        if (alumnos.isEmpty()) 
+        if (documentos.isEmpty()) 
         {
-            alumnos.put(1, (new Documento()));
-            alumnos.put(2,(new Documento()));
-            alumnos.put(3,(new Documento()));
-            alumnos.put(4,(new Documento()));
-            alumnos.put(5,(new Documento()));
-            alumnos.put(6,(new Documento()));
-            alumnos.put(7,(new Documento()));
-            alumnos.put(8,(new Documento()));
-            alumnos.put(9,(new Documento()));
-            alumnos.put(10,(new Documento()));
-            alumnos.put(11,(new Documento()));
-            alumnos.put(12,(new Documento()));
-            alumnos.put(13,(new Documento()));
-            alumnos.put(14,(new Documento()));
-            alumnos.put(15,(new Documento()));
-            alumnos.put(16,(new Documento()));
-            alumnos.put(17,(new Documento()));
-            alumnos.put(18,(new Documento()));
-            alumnos.put(19,(new Documento()));
-            alumnos.put(20,(new Documento()));
-            alumnos.put(21,(new Documento()));
+            documentos.put(1,(new Documento(1,"Holaa")));
+            documentos.put(2,(new Documento(2, "Como andas")));
+            documentos.put(3,(new Documento(3, "La vuelta al mundo en 80 dias")));
+            documentos.put(4,(new Documento(4, "Me cago en todo")));
+            /*
+            documentos.put(5,(new Documento(5)));
+            documentos.put(6,(new Documento(6)));
+            documentos.put(7,(new Documento(7)));
+            documentos.put(8,(new Documento(8)));
+            documentos.put(9,(new Documento(9)));
+            documentos.put(10,(new Documento(10)));
+            documentos.put(11,(new Documento(11)));
+            documentos.put(12,(new Documento(12)));
+            documentos.put(13,(new Documento(13)));
+            documentos.put(14,(new Documento(14)));
+            documentos.put(15,(new Documento(15)));
+            documentos.put(16,(new Documento(16)));
+            documentos.put(17,(new Documento(17)));
+            documentos.put(18,(new Documento(18)));
+            documentos.put(19,(new Documento(19)));
+            documentos.put(20,(new Documento(20)));
+            documentos.put(21,(new Documento(21)));
+            */
         }
     }
 
-    public static Hashtable getAlumnos()
+    public static Hashtable getDocumentos()
     {
-        return alumnos;
+        if(documentos == null) documentos = new Hashtable();
+        return documentos;
     }
 
-    public static void setAlumnos(Hashtable alumnos) 
+    public static void setAlumnos(Hashtable documentos) 
     {
-        Hardcodeo.alumnos = alumnos;
+        Hardcodeo.documentos = documentos;
     }
   
-    
+    public static List getDocumentosList()
+    {
+        Collection aux = getDocumentos().values();
+        return new ArrayList(aux);
+    }
 }
