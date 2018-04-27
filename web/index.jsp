@@ -30,6 +30,8 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
+        
+        
     </head>
     <body>
         <jsp:include page="header.jsp"/>
@@ -50,24 +52,27 @@
             </div>
             <div class="col-md-3">
                 <label><strong>Indexar los archivos:</strong></label>
-                <button type="button" class="btn btn-danger">
+                <a class="btn btn-danger" href="<c:url value="/indexacion"/>" target="_blank">
                     <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
                     Indexar
-                </button>
+                </a>
             </div>
 
         </div>
+        <br />
         <div class="row">
             <div class="col-md-6" id="div_carga">
-                <table class="table table-hover">
+                
+                <table class="table table-hover table-bordered">
                     <thead>
-                    <th><h4>Nombre</h4></th>
-                 
+                    <th><h4>Id</h4></th>
+                    <th><h4>Nombre</h4></th>                
                     </thead>
                     <tbody>
-                        <c:forEach items="${documentos}" var="doc">
+                        <c:forEach items="${docs}" var="documento">
                             <tr>
-                                <td>${doc.nombre_doc}</td>                              
+                                <td>${documento.id_doc}</td>
+                                <td>${documento.nombre_doc}</td>                              
                             </tr>
                         </c:forEach>
                             
@@ -77,33 +82,20 @@
         </div>
     <br />
     <jsp:include page="footer.jsp"/>
-
+    
     <script type="text/javascript">
-        function cargar_tabla()
+        
+        function indexar()
         {
-            var div = document.getElementById("div_carga");
-            
-            var html = "<table class=" + "'" + "table table-hover'" + ">";
-            html += "<thead>";
-            html += "<th><h4>Nombre</h4></th>";
-            //html += "<th><h4>Peso</h4></th>";
-            //html += "<th><h4>Frecuencia</h4></th>"
-            html += "</thead>";
-            html += "<tbody>";
-            //html += "<" + "c:forEach items=" + "$" + "{" + "docs" + "}" + "'" + "var=" + "doc" + ">";
-            html += "<c:forEach items="${documentos}" var="doc">";
-            html += "<tr>";
-            html += "<td>${doc.nombre_doc}</td>";
-            //html += "<td></td>";
-            html += "</tr>";
-            //html += "<" + "/" + "c:forEach>";
-            html += "</c:forEach>";
-            html += "</tbody>";
-            html += "</table>";
-            
-            div.innerHTML = html; 
+            window.location.open('<c:url value="/indexacion"/>', '_blank');
+           
         }
-                   
-    </script>
+        
+        function cargar_tabla()
+        {                
+            window.location = "<c:url value="/documentos?populate"/>";         
+        }
+                  
+        </script>
 </body>
 </html>

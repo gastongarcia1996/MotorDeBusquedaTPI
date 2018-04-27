@@ -10,9 +10,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.StringTokenizer;
 import java.util.Hashtable;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -21,7 +24,7 @@ import java.util.LinkedList;
 public class Vocabulario implements Serializable
 {
     private Hashtable<String, Termino> ht = new Hashtable<>();
-    private LinkedList<Termino> sl = new LinkedList<>();
+    private ArrayList<Documento> sl = new ArrayList<>();
     private int cantidad = 0;
     private StringTokenizer st = null;
     private Termino t1 = null;
@@ -38,7 +41,7 @@ public class Vocabulario implements Serializable
         try
         {
             String s = "";
-            File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusqueda/DocumentosTP1");
+            File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
             File[] lista = archivo.listFiles();
             File fileAux = null; //variable auxiliar para recordar el documento en que estuve parado
             
@@ -48,6 +51,7 @@ public class Vocabulario implements Serializable
             for(int i = 0; i < lista.length; i++)
             {
                 
+                sl.add(new Documento(i, lista[i].getName()));
                 if(es_txt(lista[i]))
                 {
                     fr = new FileReader(lista[i]);
@@ -93,7 +97,26 @@ public class Vocabulario implements Serializable
             System.out.println("Error al leer el archivo");
         }
     }
+    
+    public void obtenerDocumentos()
+    {
+        
+        File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
+        File[] lista = archivo.listFiles();
+       
+            //ciclo for que recorre la lista de documentos
+            for(int i = 0; i < lista.length; i++)
+            {
+                
+                sl.add(new Documento(i, lista[i].getName()));
+            }
+    }
 
+    public List getDocumentosList()
+    {
+        return sl;
+    }
+    
     public Hashtable<String, Termino> getHt() 
     {
         return ht;

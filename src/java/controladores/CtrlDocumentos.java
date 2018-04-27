@@ -12,7 +12,6 @@ import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +21,6 @@ import web.ErrorMsg;
  *
  * @author dlcusr
  */
-//@WebServlet(name = "CtrlDocumentos", urlPatterns = {"/CtrlDocumentos"})
 public class CtrlDocumentos extends HttpServlet {
 
     /**
@@ -35,9 +33,7 @@ public class CtrlDocumentos extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException 
-    {       
-        
+            throws ServletException, IOException {
         ErrorMsg errorMsg = null;
         String errorTitle = "No se pudo cargar los alumnos";
         String dest = "/error.jsp";
