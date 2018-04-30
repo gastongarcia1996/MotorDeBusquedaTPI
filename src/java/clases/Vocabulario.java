@@ -28,6 +28,7 @@ public class Vocabulario implements Serializable
     private int cantidad = 0;
     private StringTokenizer st = null;
     private Termino t1 = null;
+    private File[] lista = null;
     
     /**
      * Arma el vocabulario del motor;
@@ -42,13 +43,13 @@ public class Vocabulario implements Serializable
         {
             String s = "";
             File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
-            File[] lista = archivo.listFiles();
+            lista = archivo.listFiles();
             File fileAux = null; //variable auxiliar para recordar el documento en que estuve parado
             
             FileReader fr = null;
             BufferedReader br = null;
             //ciclo for que recorre la lista de documentos
-            for(int i = 0; i < lista.length; i++)
+            for(int i = 0; i < 3; i++)
             {
                 
                 sl.add(new Documento(i, lista[i].getName()));
@@ -56,7 +57,6 @@ public class Vocabulario implements Serializable
                 {
                     fr = new FileReader(lista[i]);
                     br = new BufferedReader(fr);
-                    fileAux = lista[i];
                 }
                 //ciclo que toma cada linea del documento
                 while((s = br.readLine()) != null)
@@ -77,13 +77,6 @@ public class Vocabulario implements Serializable
                             ht.put(aux, t1);  
                             
                         }
-                        else //si esta
-                        {
-                            if(lista[i] != fileAux)
-                            {
-                                t1.setCant_doc_aparece(t1.getCant_doc_aparece() + 1);
-                            }
-                        }
                     }
                    
                 }
@@ -96,6 +89,56 @@ public class Vocabulario implements Serializable
         {
             System.out.println("Error al leer el archivo");
         }
+    }
+    
+    public Termino armar_posteo(String palabra)
+    {
+        Termino t = ht.get(palabra);
+        FileReader fr = null;
+        BufferedReader br = null;
+        String aux = "";
+        int countMax = 0;
+        int countMaxAux = 0;
+        int count = 0;
+        StringTokenizer st = null;
+        File anterior = null;
+        File actual = null;
+        
+        for(int i = 0; i < 3; i++)
+        {
+            actual = lista[i];
+            try
+            {
+                fr = new FileReader(actual);
+                br = new BufferedReader(fr);
+                
+                while((aux = br.readLine()) != null)
+                {
+                    st = new StringTokenizer(aux);
+                    while(st.hasMoreTokens())
+                    {
+                        if(st.nextToken().compareToIgnoreCase(palabra) == 0)
+                        {
+                            countMaxAux++;
+                        }
+                    }
+                    
+                }
+                
+                if(countMax < countMaxAux) countMax = countMaxAux;
+                
+                if(countMaxAux > 0) count++;
+                countMaxAux = 0;
+            }
+            catch(IOException e)
+            {
+                System.out.println("Error en la lectura del archivo");
+            }
+        }
+        
+        t.setCant_doc_aparece(count);
+        t.setMax_frec_aparicion(countMax);
+        return t;
     }
     
     public void obtenerDocumentos()

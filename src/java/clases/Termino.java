@@ -8,13 +8,15 @@ package clases;
  */
 
 import java.io.*;
+import java.util.ArrayList;
+
 public class Termino implements Comparable<Termino>, Serializable
 {
     private String palabra;     
     private String significado; 
     private int cant_doc_aparece;
     private int max_frec_aparicion;
-    
+    private ArrayList<Documento> al;
     /**
      * Constructor por defecto. Asigna frecuencia 1 al objeto creado
      */
@@ -44,6 +46,16 @@ public class Termino implements Comparable<Termino>, Serializable
        significado = s;
     }
 
+    public ArrayList<Documento> getAl() 
+    {
+        return al;
+    }
+
+    public void setAl(ArrayList<Documento> al) 
+    {
+        this.al = al;
+    }
+   
     /**
      * Metodo de acceso al valor de la palabra.
      * @return el valor de la palabra.

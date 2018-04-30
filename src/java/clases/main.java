@@ -6,6 +6,7 @@
 package clases;
 
 import java.util.List;
+import java.util.ArrayList;
 
 
 /**
@@ -19,16 +20,32 @@ public class main {
      */
     public static void main(String[] args) 
     {
+        /*
+        ArrayList al = new ArrayList();
+        
+        Termino t1 = new Termino();
+        Termino t2 = new Termino();
+        Termino t3 = null;
+        
+        t1.setPalabra("Hola");
+        t2.setPalabra("Puta");
+        
+        al.add(t1);
+        al.add(t2);
+        
+        System.out.println(al.toString());
+        
+        t3 = (Termino)al.get(0);
+        
+        t3.setPalabra("Chau");
+        System.out.println(al.toString());
+        */
+        String s = "Henry";
         Vocabulario v = new Vocabulario();
         
-        v.obtenerDocumentos();
+        v.armar_vocabulario();
         
-        List<Documento> lista = v.getDocumentosList();
-        
-        for(int i = 1; i < lista.size(); i++)
-        {
-            System.out.println(lista.get(i).getNombre_doc());
-        }
+        System.out.println(v.armar_posteo(s).getCant_doc_aparece());
     }
     
 }
