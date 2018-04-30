@@ -25,6 +25,11 @@ public class Documento
         this.id_doc = id_doc;
         this.nombre_doc = nombre_doc;
     }
+    
+    public Documento(String nombre_doc)
+    {
+        this.nombre_doc = nombre_doc;
+    }
   
     public String getNombre_doc() 
     {

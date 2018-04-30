@@ -42,10 +42,9 @@ public class main {
         */
         String s = "Henry";
         Vocabulario v = new Vocabulario();
+        Termino t = v.armar_vocabulario();
         
-        v.armar_vocabulario();
-        
-        System.out.println(v.armar_posteo(s).getCant_doc_aparece());
+        System.out.println(t.getAl().size());
     }
     
 }

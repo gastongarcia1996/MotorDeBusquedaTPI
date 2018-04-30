@@ -16,7 +16,7 @@ public class Termino implements Comparable<Termino>, Serializable
     private String significado; 
     private int cant_doc_aparece;
     private int max_frec_aparicion;
-    private ArrayList<Documento> al;
+    private ArrayList al;
     /**
      * Constructor por defecto. Asigna frecuencia 1 al objeto creado
      */
@@ -32,6 +32,7 @@ public class Termino implements Comparable<Termino>, Serializable
     {
        palabra = p;
        significado = "";
+       al = new ArrayList();
     }
 
 
@@ -46,12 +47,12 @@ public class Termino implements Comparable<Termino>, Serializable
        significado = s;
     }
 
-    public ArrayList<Documento> getAl() 
+    public ArrayList getAl() 
     {
         return al;
     }
 
-    public void setAl(ArrayList<Documento> al) 
+    public void setAl(ArrayList al) 
     {
         this.al = al;
     }
