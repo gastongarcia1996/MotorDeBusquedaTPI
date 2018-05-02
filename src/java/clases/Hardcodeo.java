@@ -5,6 +5,7 @@
  */
 package clases;
 
+import Database.DBManager;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
@@ -17,6 +18,30 @@ import java.util.List;
 public abstract class Hardcodeo 
 {
     private static Hashtable documentos = new Hashtable();
+    private static String DBUrl = "jdbc:postgresql://localhost:5432/dlcdb";
+    private static String DBUserName = "dlcusr";
+    private static String DBPassword = "dlcpwd";
+
+    private static String DBResourceName = "jdbc/pg_dlcdb";
+
+    public static DBManager getSingleDB() throws Exception {
+        DBManager db = new DBManager();
+        db.setConnectionMode(DBManager.SINGLECONNECTIONMODE);
+        db.setDriverName(DBManager.POSTGRESDRIVERNAME);
+        db.setUrl(DBUrl);
+        db.setUserName(DBUserName);
+        db.setPassword(DBPassword);
+        db.connect();
+        return db;
+    }
+
+    public static DBManager getPoolDB() throws Exception {
+        DBManager db = new DBManager();
+        db.setConnectionMode(DBManager.POOLCONNECTIONMODE);
+        db.setResourceName(DBResourceName);
+        db.connect();
+        return db;
+    }
     
     public static void populateDocumentos() throws Exception
     {
@@ -65,4 +90,6 @@ public abstract class Hardcodeo
         Collection aux = getDocumentos().values();
         return new ArrayList(aux);
     }
+    
+
 }

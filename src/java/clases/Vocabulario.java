@@ -5,6 +5,7 @@
  */
 package clases;
 
+import Database.DBManager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -40,6 +41,7 @@ public class Vocabulario implements Serializable
         int countMax = 0;
         int countMaxAux = 0;
         int count = 0;
+        DBManager db = null;
         
         try
         {
@@ -66,7 +68,7 @@ public class Vocabulario implements Serializable
                 while((s = br.readLine()) != null)
                 {
                     
-                    st = new StringTokenizer(s, " |°!#$%&/()=?¡¿-\\/_*.,;:<>+");                   
+                    st = new StringTokenizer(s, " |°!'#$%&/()=?¡¿-\\/_*.,;:<>+");                   
                     
                     //ciclo que recorre las palabras y las agrega a una tabla hash
                     //evitando que no se repitan
@@ -108,7 +110,7 @@ public class Vocabulario implements Serializable
         {
             System.out.println("Error al leer el archivo");
         }
-        return ht.get("count");
+        return ht.get("by");
     }
     /*
     public Termino armar_posteo(String palabra)

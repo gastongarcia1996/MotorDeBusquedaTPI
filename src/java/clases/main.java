@@ -40,11 +40,18 @@ public class main {
         t3.setPalabra("Chau");
         System.out.println(al.toString());
         */
-        String s = "Henry";
         Vocabulario v = new Vocabulario();
         Termino t = v.armar_vocabulario();
         
-        System.out.println(t.getAl().size());
+        if(t != null) 
+        {
+            System.out.println(t.getAl().size());
+            
+            for(Object object : t.getAl())
+            {
+                System.out.println((String)object.toString());
+            }
+        }     
     }
     
 }
