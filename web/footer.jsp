@@ -8,4 +8,5 @@
 
 <footer style="background-color: gray; height: 5em; text-align: center; position: relative;">
     <br />
+    XXXX XXXX XXXXX - Gastón García 67438
 </footer>

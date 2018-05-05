@@ -63,7 +63,7 @@ public class Vocabulario implements Serializable
                     br = new BufferedReader(fr);
                     fileAux = lista[i];
                 }
-                else break;
+                else throw new IOException();
                 //ciclo que toma cada linea del documento
                 while((s = br.readLine()) != null)
                 {
