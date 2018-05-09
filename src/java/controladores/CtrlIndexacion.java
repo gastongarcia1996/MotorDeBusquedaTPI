@@ -5,10 +5,14 @@
  */
 package controladores;
 
+import Database.DBManager;
+import clases.Datos;
 import clases.Vocabulario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -39,15 +43,14 @@ public class CtrlIndexacion extends HttpServlet {
         String errorTitle = "No se pudo cargar los alumnos";
         String dest = "/error.jsp";
         
-        try
+        try 
         {
-            Vocabulario v = new Vocabulario();
-            v.obtenerDocumentos();
-            List docs = v.getDocumentosList();
-            request.setAttribute("docs", docs);
-            dest = "/documento.jsp";
-        }
-        catch(Exception e)
+            DBManager db = Datos.getSingleDB();
+            
+            
+
+        } 
+        catch (Exception e) 
         {
             errorMsg = new ErrorMsg(errorTitle, e.getMessage());
             request.setAttribute("errorMsg", errorMsg);
@@ -97,4 +100,25 @@ public class CtrlIndexacion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    //        ErrorMsg errorMsg = null;
+//        String errorTitle = "No se pudo cargar los alumnos";
+//        String dest = "/error.jsp";
+//        
+//        try
+//        {
+//            Vocabulario v = new Vocabulario();
+//            v.obtenerDocumentos();
+//            List docs = v.getDocumentosList();
+//            request.setAttribute("docs", docs);
+//            dest = "/documento.jsp";
+//        }
+//        catch(Exception e)
+//        {
+//            errorMsg = new ErrorMsg(errorTitle, e.getMessage());
+//            request.setAttribute("errorMsg", errorMsg);
+//        }
+//        
+//        ServletContext app = this.getServletContext();
+//        RequestDispatcher disp = app.getRequestDispatcher(dest);
+//        disp.forward(request, response);
 }

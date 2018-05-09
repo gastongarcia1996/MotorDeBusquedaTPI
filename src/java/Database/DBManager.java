@@ -264,10 +264,17 @@ public class DBManager implements Serializable {
      * @throws Exception
      */
     public ResultSet executeQuery(String query) throws Exception {
-        this.stmt = this.cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//        this.stmt = this.cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        this.stmt = this.cn.createStatement();
         return this.stmt.executeQuery(query);
     }
 
+    public void executeInsert(String query) throws Exception {
+//        this.stmt = this.cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        this.stmt = this.cn.createStatement();
+        this.stmt.execute(query);
+        stmt.close();
+    }
     /**
      * Ejecuta una instrucción SQL utilizando un Statement.
      *

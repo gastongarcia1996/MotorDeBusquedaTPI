@@ -5,7 +5,9 @@
  */
 package clases;
 
+import Database.DBDocumento;
 import Database.DBManager;
+import Database.DBTermino;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -29,11 +31,12 @@ public class Vocabulario implements Serializable
     private int cantidad = 0;
     private StringTokenizer st = null;
     private File[] lista = null;
+    DBManager db = null;
     
     /**
      * Arma el vocabulario del motor;
      */
-    public Termino armar_vocabulario()
+    public void armar_vocabulario()
     {
         Termino t1 = null;
         String aux = "";
@@ -41,21 +44,23 @@ public class Vocabulario implements Serializable
         int countMax = 0;
         int countMaxAux = 0;
         int count = 0;
-        DBManager db = null;
+        
         
         try
         {
+            db = Datos.getSingleDB();
+            
             String s = "";
-            File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
+            //File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
+            File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
             lista = archivo.listFiles();
             File fileAux = null; //variable auxiliar para recordar el documento en que estuve parado
             
             FileReader fr = null;
             BufferedReader br = null;
             //ciclo for que recorre la lista de documentos
-            for(int i = 0; i < 6; i++)
-            {
-                
+            for(int i = 0; i < lista[i].length(); i++)
+            {              
                 sl.add(new Documento(i, lista[i].getName()));
                 if(es_txt(lista[i]))
                 {
@@ -64,6 +69,7 @@ public class Vocabulario implements Serializable
                     fileAux = lista[i];
                 }
                 else throw new IOException();
+                //DBDocumento.insertarDocumento(db, lista[i].getName());
                 //ciclo que toma cada linea del documento
                 while((s = br.readLine()) != null)
                 {
@@ -81,9 +87,11 @@ public class Vocabulario implements Serializable
                         {
                             t1 = new Termino(aux);
                             ht.put(aux, t1);
-                            t1.getAl().add(fileAux.getName());
-                            
+                            //t1.getAl().add(fileAux.getName());
+                            DBTermino.insertarTermino(db, aux);
+                            count++;
                         }
+                        /*
                         else
                         {
                             t1 = ht.get(aux);
@@ -91,7 +99,8 @@ public class Vocabulario implements Serializable
                             {
                                 t1.getAl().add(fileAux.getName());
                             }
-                        }                                        
+                        }
+                        */
                     }
                    
                 }
@@ -104,13 +113,13 @@ public class Vocabulario implements Serializable
                 br.close();
                               
             }           
-                
+            db.disconnect();
         }
-        catch(IOException e)
+        catch(Exception e)
         {
-            System.out.println("Error al leer el archivo");
+            System.out.println("Error al leer el archivo " + e.getMessage());
         }
-        return ht.get("by");
+        System.out.println(count);
     }
     /*
     public Termino armar_posteo(String palabra)
@@ -166,7 +175,7 @@ public class Vocabulario implements Serializable
     public void obtenerDocumentos()
     {
         
-        File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
+        File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
         File[] lista = archivo.listFiles();
        
             //ciclo for que recorre la lista de documentos

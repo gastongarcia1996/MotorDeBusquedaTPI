@@ -5,7 +5,7 @@
  */
 package controladores;
 
-import clases.Hardcodeo;
+import clases.Datos;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -40,8 +40,8 @@ public class CtrlDocumentos extends HttpServlet {
         
         try 
         {
-            if (request.getParameter("populate") != null) Hardcodeo.populateDocumentos();
-            List docs = Hardcodeo.getDocumentosList();
+            if (request.getParameter("populate") != null) Datos.populateDocumentos();
+            List docs = Datos.getDocumentosList();
             request.setAttribute("documentos", docs);
             dest = "/index.jsp";
         }

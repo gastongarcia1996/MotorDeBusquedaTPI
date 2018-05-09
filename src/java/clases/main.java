@@ -41,17 +41,8 @@ public class main {
         System.out.println(al.toString());
         */
         Vocabulario v = new Vocabulario();
-        Termino t = v.armar_vocabulario();
+        v.armar_vocabulario();
         
-        if(t != null) 
-        {
-            System.out.println(t.getAl().size());
-            
-            for(Object object : t.getAl())
-            {
-                System.out.println((String)object.toString());
-            }
-        }     
     }
     
 }
