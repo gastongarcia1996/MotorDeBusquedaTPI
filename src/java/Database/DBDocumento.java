@@ -6,6 +6,7 @@
 package Database;
 
 import clases.Datos;
+import java.sql.ResultSet;
 
 
 /**
@@ -40,5 +41,28 @@ public abstract class DBDocumento
             //System.out.println("Error" + e.getMessage());
             System.out.println(e.getClass().getName());
         }
+    }
+    
+    public static ResultSet selectDocumentoId(DBManager db, String nombre)
+    {
+        String query = "SELECT * FROM documentos WHERE nombre = '" + nombre + "'";
+        ResultSet rs = null;
+        
+        try
+        {
+            if(db != null)
+            {
+                rs = db.executeQuery(query);
+            }
+            else
+            {
+                db = Datos.getSingleDB();
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return rs; 
     }
 }

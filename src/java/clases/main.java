@@ -41,8 +41,8 @@ public class main {
         System.out.println(al.toString());
         */
         Vocabulario v = new Vocabulario();
-        v.armar_vocabulario();
-        
+        //v.armar_vocabulario();
+        v.obtenerDocumentos();
     }
     
 }

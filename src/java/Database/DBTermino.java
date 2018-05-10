@@ -18,7 +18,7 @@ public abstract class DBTermino
         try
         {
         int num = 1;
-        String query = "INSERT INTO terminos(palabra) VALUES('" + palabra + "');";
+        String query = "INSERT INTO terminos VALUES('" + palabra + "');";
         if(db != null)
         {
             db.executeInsert(query);
@@ -32,7 +32,7 @@ public abstract class DBTermino
         catch(Exception e)
         {
             //System.out.println("Error" + e.getMessage());
-            System.out.println(e.getClass().getName());
+            System.out.println(e.getMessage());
         }
     }
 }

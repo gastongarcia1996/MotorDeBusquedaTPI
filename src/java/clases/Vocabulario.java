@@ -8,6 +8,7 @@ package clases;
 import Database.DBDocumento;
 import Database.DBManager;
 import Database.DBTermino;
+import Database.DBTerminoXDocumento;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -74,13 +75,16 @@ public class Vocabulario implements Serializable
                 while((s = br.readLine()) != null)
                 {
                     
-                    st = new StringTokenizer(s, " |°!'#$%&/()=?¡¿-\\/_*.,;:<>+");                   
+                    st = new StringTokenizer(s, " |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+");                   
                     
                     //ciclo que recorre las palabras y las agrega a una tabla hash
                     //evitando que no se repitan
                     while(st.hasMoreTokens()) 
                     {      
-                        aux = st.nextToken();
+                        aux = st.nextToken().toLowerCase();
+                        
+                        
+                        aux = aux.replace("'", "''");
                         
                         //si el termino no esta en la hashtable
                         if(!ht.containsKey(aux)) 
@@ -89,7 +93,6 @@ public class Vocabulario implements Serializable
                             ht.put(aux, t1);
                             //t1.getAl().add(fileAux.getName());
                             DBTermino.insertarTermino(db, aux);
-                            count++;
                         }
                         /*
                         else
@@ -119,10 +122,9 @@ public class Vocabulario implements Serializable
         {
             System.out.println("Error al leer el archivo " + e.getMessage());
         }
-        System.out.println(count);
     }
-    /*
-    public Termino armar_posteo(String palabra)
+    
+    public void armar_posteo(String palabra)
     {
         Termino t = ht.get(palabra);
         FileReader fr = null;
@@ -133,7 +135,7 @@ public class Vocabulario implements Serializable
         int count = 0;
         StringTokenizer st = null;
         
-        for(int i = 0; i < 3; i++)
+        for(int i = 0; i < lista[i].length(); i++)
         {
             try
             {
@@ -160,30 +162,40 @@ public class Vocabulario implements Serializable
                 
                 if(countMaxAux > 0) count++;
                 countMaxAux = 0;
+                db = Datos.getSingleDB();
+                DBTerminoXDocumento.insertarTerminoXDocumento(db, palabra, i);
                 br.close();
             }
-            catch(IOException e)
+            catch(Exception e)
             {
                 System.out.println("Error en la lectura del archivo");
             }         
         }
         t.setCant_doc_aparece(count);
         t.setMax_frec_aparicion(countMax);
-        return t;
     }
-    */
+    
     public void obtenerDocumentos()
     {
-        
-        File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
-        File[] lista = archivo.listFiles();
+        try
+        {
+            db = Datos.getSingleDB();
+            File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
+            File[] lista = archivo.listFiles();
        
             //ciclo for que recorre la lista de documentos
             for(int i = 0; i < lista.length; i++)
-            {
-                
-                sl.add(new Documento(i, lista[i].getName()));
+            {               
+                //sl.add(new Documento(i, lista[i].getName()));
+                DBDocumento.insertarDocumento(db, lista[i].getName());
             }
+            db.disconnect();
+        } 
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
     }
 
     public List getDocumentosList()
