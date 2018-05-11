@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author dlcusr
  */
-public class Vocabulario implements Serializable
+public class Indexacion implements Serializable
 {
     private Hashtable<String, Termino> ht = new Hashtable<>();
     private ArrayList<Documento> sl = new ArrayList<>();

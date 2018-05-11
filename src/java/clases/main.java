@@ -40,7 +40,7 @@ public class main {
         t3.setPalabra("Chau");
         System.out.println(al.toString());
         */
-        Vocabulario v = new Vocabulario();
+        Indexacion v = new Indexacion();
         //v.armar_vocabulario();
         System.out.println("Armando vocabulario...");
         v.armar_vocabulario();

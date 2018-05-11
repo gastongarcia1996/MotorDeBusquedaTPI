@@ -7,7 +7,7 @@ package controladores;
 
 import Database.DBManager;
 import clases.Datos;
-import clases.Vocabulario;
+import clases.Indexacion;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -106,7 +106,7 @@ public class CtrlIndexacion extends HttpServlet {
 //        
 //        try
 //        {
-//            Vocabulario v = new Vocabulario();
+//            Indexacion v = new Indexacion();
 //            v.obtenerDocumentos();
 //            List docs = v.getDocumentosList();
 //            request.setAttribute("docs", docs);
