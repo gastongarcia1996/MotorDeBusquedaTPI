@@ -42,7 +42,10 @@ public class main {
         */
         Vocabulario v = new Vocabulario();
         //v.armar_vocabulario();
-        v.obtenerDocumentos();
+        System.out.println("Armando vocabulario...");
+        v.armar_vocabulario();
+        System.out.println("Armando posteo...");
+        v.armar_posteo();
     }
     
 }

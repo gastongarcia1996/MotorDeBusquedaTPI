@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.StringTokenizer;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -49,7 +50,7 @@ public class Vocabulario implements Serializable
         
         try
         {
-            db = Datos.getSingleDB();
+            //db = Datos.getSingleDB();
             
             String s = "";
             //File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
@@ -91,8 +92,7 @@ public class Vocabulario implements Serializable
                         {
                             t1 = new Termino(aux);
                             ht.put(aux, t1);
-                            //t1.getAl().add(fileAux.getName());
-                            DBTermino.insertarTermino(db, aux);
+                            //DBTermino.insertarTermino(db, aux);
                         }
                         /*
                         else
@@ -116,7 +116,7 @@ public class Vocabulario implements Serializable
                 br.close();
                               
             }           
-            db.disconnect();
+            //db.disconnect();
         }
         catch(Exception e)
         {
@@ -124,55 +124,79 @@ public class Vocabulario implements Serializable
         }
     }
     
-    public void armar_posteo(String palabra)
-    {
-        Termino t = ht.get(palabra);
+    public void armar_posteo()
+    {  
+        Hashtable htAux = ht;
         FileReader fr = null;
         BufferedReader br = null;
-        String aux = "";
         int countMax = 0;
         int countMaxAux = 0;
         int count = 0;
-        StringTokenizer st = null;
-        
-        for(int i = 0; i < lista[i].length(); i++)
-        {
-            try
+        int frec_doc = 0;       
+        String palabra, aux = "";
+        Termino t = null;
+        boolean encontrado = false;
+                             
+            for(int i = 0; i < lista[i].length(); i++)
             {
-                if(es_txt(lista[i]))
-                {
-                    fr = new FileReader(lista[i]);
-                    br = new BufferedReader(fr);
-                }
-                               
-                while((aux = br.readLine()) != null)
-                {
-                    st = new StringTokenizer(aux);
-                    while(st.hasMoreTokens())
-                    {
-                        if(st.nextToken().compareToIgnoreCase(palabra) == 0)
+                htAux = ht;
+                while(!htAux.isEmpty())
+                {                                
+                    Enumeration e = htAux.keys();
+                    while(e.hasMoreElements())                
+                    {    
+                        palabra = (String) e.nextElement();
+                        t = ht.get(palabra);
+
+                        try
                         {
-                            countMaxAux++;
+                            if(db == null) db = Datos.getSingleDB();
+                            if(es_txt(lista[i])) 
+                            {
+                                fr = new FileReader(lista[i]);
+                                br = new BufferedReader(fr);
+                            }
+
+                            while((aux = br.readLine()) != null) 
+                            {
+                                st = new StringTokenizer(aux, " |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+");
+                                while(st.hasMoreTokens()) 
+                                {
+                                    if(st.nextToken().compareToIgnoreCase(palabra) == 0) 
+                                    {
+                                        countMaxAux++;
+                                    }
+                                }
+                            }
+                            if(countMaxAux != 0)
+                            {
+                                DBTerminoXDocumento.insertarTerminoXDocumento(db, palabra, i + 1, countMaxAux);
+                                htAux.remove(palabra);
+                            }
+
+                            if(countMax < countMaxAux) 
+                            {
+                                countMax = countMaxAux;
+                            }
+
+                            if(countMaxAux > 0) 
+                            {
+                                count++;
+                            }
+                            countMaxAux = 0;
+                            br.close();
+                        } 
+                        catch(Exception ex) 
+                        {
+                            System.out.println("Error en la lectura del archivo");
                         }
-                    }
-                    
+                        t.setCant_doc_aparece(count);
+                        t.setMax_frec_aparicion(countMax);  
+                    } 
                 }
-                
-                if(countMax < countMaxAux) countMax = countMaxAux;
-                
-                if(countMaxAux > 0) count++;
-                countMaxAux = 0;
-                db = Datos.getSingleDB();
-                DBTerminoXDocumento.insertarTerminoXDocumento(db, palabra, i);
-                br.close();
-            }
-            catch(Exception e)
-            {
-                System.out.println("Error en la lectura del archivo");
-            }         
-        }
-        t.setCant_doc_aparece(count);
-        t.setMax_frec_aparicion(countMax);
+            }            
+        db.disconnect();
+            
     }
     
     public void obtenerDocumentos()

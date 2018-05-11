@@ -13,15 +13,23 @@ import clases.Datos;
  */
 public abstract class DBTerminoXDocumento 
 {
-    public static void insertarTerminoXDocumento(DBManager db, String palabra, int id_doc)
+    public static void insertarTerminoXDocumento(DBManager db, String palabra, int id_doc, int frec_termino)
     {
         String query = "";
         try
         {
-            query = "INSERT INTO terminoxdoocumento(id_doc, palabra) VALUES(" + 
-                    (int)DBDocumento.selectDocumentoId(db, query).getObject(1) + ",'" + palabra + "')";
-            db = Datos.getSingleDB();
-            db.executeQuery(query);
+            query = "INSERT INTO terminoxdocumento(palabra, id_doc, frec_termino) VALUES('" + palabra + "'," + 
+                    id_doc + "," + frec_termino + ");";
+            if(db != null)
+            {
+                db.executeInsert(query);
+            }
+            else
+            {
+                db = Datos.getSingleDB();
+                db.executeInsert(query);
+            }
+            
         }
         catch(Exception e)
         {
