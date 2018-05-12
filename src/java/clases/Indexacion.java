@@ -29,7 +29,8 @@ import java.util.List;
 public class Indexacion implements Serializable
 {
     private Hashtable<String, Termino> ht = new Hashtable<>();
-    private ArrayList<Documento> sl = new ArrayList<>();
+    private ArrayList<Documento> al = new ArrayList<>();
+    private LinkedList<Termino> ll = new LinkedList<>();
     private int cantidad = 0;
     private StringTokenizer st = null;
     private File[] lista = null;
@@ -61,10 +62,10 @@ public class Indexacion implements Serializable
             FileReader fr = null;
             BufferedReader br = null;
             //ciclo for que recorre la lista de documentos
-            for(int i = 0; i < lista[i].length(); i++)
-            {              
-                sl.add(new Documento(i, lista[i].getName()));
-                if(es_txt(lista[i]))
+            for(int i = 0; i < lista.length; i++)
+            {      
+                al.add(new Documento(i, lista[i].getName()));
+                if (es_txt(lista[i]))
                 {
                     fr = new FileReader(lista[i]);
                     br = new BufferedReader(fr);
@@ -86,6 +87,7 @@ public class Indexacion implements Serializable
                         
                         
                         aux = aux.replace("'", "''");
+                                               
                         
                         //si el termino no esta en la hashtable
                         if(!ht.containsKey(aux)) 
@@ -124,80 +126,107 @@ public class Indexacion implements Serializable
         }
     }
     
-    public void armar_posteo()
+    public void armar_posteo() throws Exception
     {  
-        Hashtable htAux = ht;
+        String palabra = "";
+        int cont = 0;
+        Termino aux = null;
+        LinkedList<Termino> listAux = new LinkedList<>();
+        db = Datos.getSingleDB();
+        
+        for(int i = 0; i < lista.length; i++)
+        {
+            FileReader fr = new FileReader(lista[i]);
+            BufferedReader br = new BufferedReader(fr);
+            
+            while((palabra = br.readLine()) != null)
+            {
+                while(st.hasMoreTokens()) 
+                {      
+                    if(ht.containsKey(palabra))
+                    {
+                        aux = ht.get(palabra);
+                        aux.setMax_frec_aparicion(aux.getMax_frec_aparicion() + 1);
+                        aux.getAl().add(i);
+                        listAux.add(aux);
+                    }
+                }
+            }
+            DBTerminoXDocumento.insertarTerminoXDocumento(db, aux.getPalabra(), i + 1, aux.getMax_frec_aparicion());
+        }
+        
+        
+        
+        
+        
+        /*
         FileReader fr = null;
         BufferedReader br = null;
         int countMax = 0;
         int countMaxAux = 0;
         int count = 0;
         int frec_doc = 0;       
-        String palabra, aux = "";
+        String palabra = "";
+        String aux = "";
         Termino t = null;
         boolean encontrado = false;
                              
-            for(int i = 0; i < lista[i].length(); i++)
-            {
-                htAux = ht;
-                while(!htAux.isEmpty())
-                {                                
-                    Enumeration e = htAux.keys();
-                    while(e.hasMoreElements())                
-                    {    
-                        palabra = (String) e.nextElement();
-                        t = ht.get(palabra);
-
-                        try
-                        {
-                            if(db == null) db = Datos.getSingleDB();
-                            if(es_txt(lista[i])) 
-                            {
-                                fr = new FileReader(lista[i]);
-                                br = new BufferedReader(fr);
-                            }
-
-                            while((aux = br.readLine()) != null) 
-                            {
-                                st = new StringTokenizer(aux, " |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+");
-                                while(st.hasMoreTokens()) 
-                                {
-                                    if(st.nextToken().compareToIgnoreCase(palabra) == 0) 
-                                    {
-                                        countMaxAux++;
-                                    }
-                                }
-                            }
-                            if(countMaxAux != 0)
-                            {
-                                DBTerminoXDocumento.insertarTerminoXDocumento(db, palabra, i + 1, countMaxAux);
-                                htAux.remove(palabra);
-                            }
-
-                            if(countMax < countMaxAux) 
-                            {
-                                countMax = countMaxAux;
-                            }
-
-                            if(countMaxAux > 0) 
-                            {
-                                count++;
-                            }
-                            countMaxAux = 0;
-                            br.close();
-                        } 
-                        catch(Exception ex) 
-                        {
-                            System.out.println("Error en la lectura del archivo");
-                        }
-                        t.setCant_doc_aparece(count);
-                        t.setMax_frec_aparicion(countMax);  
-                    } 
-                }
-            }            
-        db.disconnect();
+        for(int i = 0; i < lista[i].length(); i++)
+        {
             
-    }
+            try
+            {
+                if(db == null) db = Datos.getSingleDB();
+                if(es_txt(lista[i])) 
+                {
+                    fr = new FileReader(lista[i]);
+                    br = new BufferedReader(fr);
+                }
+
+                while((aux = br.readLine()) != null) 
+                {
+                    st = new StringTokenizer(aux, " |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+");
+                    while(st.hasMoreTokens()) 
+                    {
+                        if(!ht.containsKey(aux)) 
+                        {
+                            t = new Termino(aux);
+                            ht.put(aux, t);
+                            //DBTermino.insertarTermino(db, aux);
+                        }
+                    }
+                }
+                if(countMaxAux != 0)
+                {
+                    DBTerminoXDocumento.insertarTerminoXDocumento(db, palabra, i + 1, countMaxAux);
+                    htAux.remove(palabra);
+                }
+
+                if(countMax < countMaxAux) 
+                {
+                    countMax = countMaxAux;
+                }
+
+                if(countMaxAux > 0) 
+                {
+                    count++;
+                }
+                countMaxAux = 0;
+                br.close();
+            } 
+            catch(Exception ex) 
+            {
+                System.out.println("Error en la lectura del archivo");
+            }
+            t.setCant_doc_aparece(count);
+            t.setMax_frec_aparicion(countMax);  
+        } 
+        db.disconnect();  
+        */
+    }            
+        
+            
+    
     
     public void obtenerDocumentos()
     {
@@ -224,7 +253,7 @@ public class Indexacion implements Serializable
 
     public List getDocumentosList()
     {
-        return sl;
+        return al;
     }
     
     public Hashtable<String, Termino> getHt() 
