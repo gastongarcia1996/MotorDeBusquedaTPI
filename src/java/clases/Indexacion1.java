@@ -31,10 +31,9 @@ public class Indexacion1 implements Serializable
 {
     private Hashtable<String, Termino> ht = new Hashtable<>();
     private ArrayList<Documento> sl = new ArrayList<>();
-    private int cantidad = 0;
     private StringTokenizer st = null;
-    private String directory="DocumentosTPI";
-    private String tokenizerString=" |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+";
+    private final String directory="DocumentosTPI";
+    private final String tokenizerString=" |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+";
     private File[] lista = null;
     DBManager db = null;
     FileReader fr = null;
@@ -59,8 +58,11 @@ public class Indexacion1 implements Serializable
             File archivo = new File(directory);
             lista = archivo.listFiles();
             for(int i=0; i<lista.length;i++){
-                if(esTxt(lista[i])){
-                    procesarArchivo(lista[i]);
+                File auxFile = lista[i];
+                String nameFile=lista[i].getName();
+                if(esTxt(auxFile)&&!estaLeido(nameFile)){
+                    
+                    procesarArchivo(auxFile);
                 }
             }
           
@@ -71,9 +73,14 @@ public class Indexacion1 implements Serializable
         }
     }
     
+    public boolean estaLeido(String nombre){
+        return DBDocumento.existeDocumento(db, nombre);
+    }
+    
     public void procesarArchivo(File file){
-        try{File auxFile = file;
-        String textLine = "";
+        try{
+            File auxFile = file;
+            String textLine = "";
             String auxFileName = auxFile.getName();
             Hashtable<String, Integer> apariciones = new Hashtable<>();
             
@@ -101,12 +108,17 @@ public class Indexacion1 implements Serializable
             for (int i = 0; i < keys.length; i++) {
                 String key;
                 key = String.valueOf(keys[i]);
+                actualizarPosteo(key,auxFileName,apariciones.get(key));
                 DBTerminoXDocumento.insertarTerminoXDocumento(db, key, auxFile.getName(), apariciones.get(key));
 
             }
         }catch (Exception e){
             
         }
+    }
+    
+    public void actualizarPosteo(String termino, String nombreDoc, int conteo){
+        
     }
     
     public void armar_posteo()
@@ -213,28 +225,7 @@ public class Indexacion1 implements Serializable
             DBTerminoXDocumento.insertarTerminoXDocumento(db, aux.getPalabra(), i + 1, aux.getMax_frec_aparicion());
         }*/
     
-    public void obtenerDocumentos()
-    {
-        try
-        {
-            db = Datos.getSingleDB();
-            File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
-            File[] lista = archivo.listFiles();
-       
-            //ciclo for que recorre la lista de documentos
-            for(int i = 0; i < lista.length; i++)
-            {               
-                //sl.add(new Documento(i, lista[i].getName()));
-                DBDocumento.insertarDocumento(db, lista[i].getName());
-            }
-            db.disconnect();
-        } 
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-    }
+    
 
     public List getDocumentosList()
     {

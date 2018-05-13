@@ -48,6 +48,9 @@ public abstract class DBTerminoXDocumento
             if(!DBTermino.existeTermino(db, palabra)){
                 DBTermino.insertarTermino(db, palabra);
             }
+            if(!DBDocumento.existeDocumento(db, nombreDoc)){
+                DBDocumento.insertarDocumento(db, nombreDoc);
+            }
             int idDoc=DBDocumento.selectDocumentoId(db, nombreDoc).getInt(0);
             query = "INSERT INTO terminoxdocumento(palabra, id_doc, frec_termino) VALUES('" + palabra + "'," + 
                     idDoc + "," + frec_termino + ");";
