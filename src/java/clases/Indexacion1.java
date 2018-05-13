@@ -76,13 +76,9 @@ public class Indexacion1 implements Serializable
         String textLine = "";
             String auxFileName = auxFile.getName();
             Hashtable<String, Integer> apariciones = new Hashtable<>();
-            if (esTxt(auxFile)) {
+            
                 fr = new FileReader(auxFile);
                 br = new BufferedReader(fr);
-
-            } else {
-                System.out.println("NO ES texto .txt");
-            }
             while ((textLine = br.readLine()) != null) {
                 st = new StringTokenizer(textLine, tokenizerString);
 
