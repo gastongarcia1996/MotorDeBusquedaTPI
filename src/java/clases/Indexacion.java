@@ -50,7 +50,7 @@ public class Indexacion implements Serializable
       
         try
         {
-            //db = Datos.getSingleDB();
+            db = Datos.getSingleDB();
             
             String s = "";
             //File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
@@ -103,11 +103,11 @@ public class Indexacion implements Serializable
                         if(!ht.containsKey(aux)) 
                         {
                             t1 = new Termino(aux);
-                            /*
+                            
                             aux = aux.replace("'", "''");
                             DBTermino.insertarTermino(db, aux);
                             aux = aux.replace("''", "'");
-                            */
+                            
                             ht.put(aux, t1);                           
                         }
                         

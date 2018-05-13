@@ -51,8 +51,7 @@ public abstract class DBDocumento
         try
         {
         int num = 1;
-        String query = "INSERT INTO documentos(nombre, frec_termino) VALUES('" + nombre + "',"
-                + num + ");";
+        String query = "INSERT INTO documentos(nombre) VALUES('" + nombre + "');";
         if(db != null)
         {
             db.executeInsert(query);
