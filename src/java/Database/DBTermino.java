@@ -52,7 +52,7 @@ public abstract class DBTermino
                 db = Datos.getSingleDB();
                 rs = db.executeQuery(query);
             }
-            return rs.first();
+            return rs.next();
         }
         catch(Exception e)
         {

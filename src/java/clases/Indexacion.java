@@ -37,6 +37,15 @@ public class Indexacion implements Serializable
     private File[] lista = null;
     DBManager db = null;
     
+    public Indexacion()
+    {        
+    }
+    
+    public Indexacion(File[] lista)
+    {
+        this.lista = lista;
+    }
+    
     /**
      * Arma el vocabulario del motor;
      */
@@ -47,35 +56,33 @@ public class Indexacion implements Serializable
         String aux2 = "";
         int countMax = 0;
         int countMaxAux = 0;
-      
+        FileReader fr = null;
+        BufferedReader br = null;
+        
         try
         {
             db = Datos.getSingleDB();
             
             String s = "";
             //File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
-            File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
-            lista = archivo.listFiles();
-            File fileAux = null; //variable auxiliar para recordar el documento en que estuve parado
             
-            FileReader fr = null;
-            BufferedReader br = null;
+            if(lista == null)
+            {
+                File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
+                lista = archivo.listFiles();
+            }
+            
             //ciclo for que recorre la lista de documentos
             for(int i = 0; i < lista.length; i++)
             {      
                 al.add(new Documento(i, lista[i].getName()));
-                if (es_txt(lista[i]))
+                
+                if(validarDocumento(db, lista[i]))
                 {
                     fr = new FileReader(lista[i]);
-                    br = new BufferedReader(fr);
-                    fileAux = lista[i];                   
+                    br = new BufferedReader(fr);              
                 }
                 else continue;
-                
-                if(!DBDocumento.existeDocumento(db, lista[i].getName())) 
-                {
-                    DBDocumento.insertarDocumento(db, lista[i].getName());
-                }
                 
 //                if(!DBDocumento.existeDocumento(db, lista[i].getName()))
 //                {
@@ -103,9 +110,14 @@ public class Indexacion implements Serializable
                         if(!ht.containsKey(aux)) 
                         {
                             t1 = new Termino(aux);
-                            
+                                                        
                             aux = aux.replace("'", "''");
-                            DBTermino.insertarTermino(db, aux);
+                            /*
+                            if(!DBTermino.existeTermino(db, aux))
+                            {
+                                DBTermino.insertarTermino(db, aux);
+                            }       
+                            */
                             aux = aux.replace("''", "'");
                             
                             ht.put(aux, t1);                           
@@ -125,7 +137,7 @@ public class Indexacion implements Serializable
         }
     }
     
-    public void armar_posteo() throws Exception
+    public void armar_posteo(int desde, int hasta) throws Exception
     {  
         String palabra = "";
         int cont = 0;
@@ -137,30 +149,23 @@ public class Indexacion implements Serializable
         db = Datos.getSingleDB();
         int i;
         
-        for(i = 0; i < 10; i++)//Sacar el 10
-        {
-            /*
-            if (es_txt(lista[i])) 
-            {
-                fr = new FileReader(lista[i]);
-                br = new BufferedReader(fr); 
-            } 
-            else continue;
-
-            if(!DBDocumento.existeDocumento(db, lista[i].getName())) 
-            {
-                DBDocumento.insertarDocumento(db, lista[i].getName());
-            }
-            */
+        for(i = desde; i < hasta; i++)//Sacar el 10
+        {        
             
+            /*
+            NO HACE FALTA COMPROBAR PORQUE EN armar_vocabulario() LO VALIDO
            if(validarDocumento(db, lista[i]))
            {
                fr = new FileReader(lista[i]);
                br = new BufferedReader(fr);              
            }
            else continue;
+            */
+           
+            fr = new FileReader(lista[i]);
+            br = new BufferedReader(fr); 
             
-           while((palabra = br.readLine()) != null)
+            while((palabra = br.readLine()) != null)
             {
                 st = new StringTokenizer(palabra, " |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+");
                 
@@ -222,6 +227,11 @@ public class Indexacion implements Serializable
     }        
     
     
+    public File[] getLista()
+    {
+        return lista;
+    }
+    
     public void obtenerDocumentos()
     {
         try
@@ -254,6 +264,11 @@ public class Indexacion implements Serializable
     {
         return ht;
     }
+
+    public void setHt(Hashtable<String, Termino> ht) 
+    {
+        this.ht = ht;
+    }
     
     /**
      * Metodo que recibe un archivo y valida que sea de texto
@@ -264,5 +279,12 @@ public class Indexacion implements Serializable
     {
         return f.getName().endsWith(".txt") || f.getName().endsWith(".TXT");
     }
+
+    public void setLista(File[] lista) 
+    {
+        this.lista = lista;
+    }
       
+    
+    
 }

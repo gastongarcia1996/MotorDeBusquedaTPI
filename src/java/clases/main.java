@@ -13,8 +13,8 @@ import java.util.ArrayList;
  *
  * @author dlcusr
  */
-public class main {
-
+public class main extends Thread 
+{
     /**
      * @param args the command line arguments
      */
@@ -40,19 +40,21 @@ public class main {
         t3.setPalabra("Chau");
         System.out.println(al.toString());
         */
-        Indexacion v = new Indexacion();
+        
         //v.armar_vocabulario();
+        Indexacion v1 = new Indexacion();    
+        Indexacion v2 = new Indexacion();
         System.out.println("Armando vocabulario...");
-        v.armar_vocabulario();
+        v1.armar_vocabulario();
+        v2.setLista(v1.getLista());
+        v2.armar_vocabulario();
+        
         System.out.println("Armando posteo...");
-        try
-        {
-            v.armar_posteo();
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-    }
-    
+              
+        Hilo1 h1 = new Hilo1(v1);
+        Hilo2 h2 = new Hilo2(v2);
+        
+        h1.start();               
+        h2.start();
+    } 
 }
