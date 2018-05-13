@@ -86,7 +86,7 @@ public class Indexacion implements Serializable
                         aux = st.nextToken().toLowerCase();
                         
                         
-                        aux = aux.replace("'", "''");
+                        //aux = aux.replace("'", "''");
                                                
                         
                         //si el termino no esta en la hashtable
@@ -130,99 +130,49 @@ public class Indexacion implements Serializable
     {  
         String palabra = "";
         int cont = 0;
+        int id_doc = 0;
         Termino aux = null;
-        LinkedList<Termino> listAux = new LinkedList<>();
+        Hashtable<String, Termino> hashAux = new Hashtable<>();
         db = Datos.getSingleDB();
+        int i;
         
-        for(int i = 0; i < lista.length; i++)
+        for(i = 0; i < 10; i++)
         {
             FileReader fr = new FileReader(lista[i]);
-            BufferedReader br = new BufferedReader(fr);
+            BufferedReader br = new BufferedReader(fr);           
             
             while((palabra = br.readLine()) != null)
             {
+                st = new StringTokenizer(palabra, " |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+");
+                
                 while(st.hasMoreTokens()) 
-                {      
+                {    
+                    palabra = st.nextToken().toLowerCase();
                     if(ht.containsKey(palabra))
                     {
                         aux = ht.get(palabra);
                         aux.setMax_frec_aparicion(aux.getMax_frec_aparicion() + 1);
-                        aux.getAl().add(i);
-                        listAux.add(aux);
-                    }
-                }
-            }
-            DBTerminoXDocumento.insertarTerminoXDocumento(db, aux.getPalabra(), i + 1, aux.getMax_frec_aparicion());
-        }
-        
-        
-        
-        
-        
-        /*
-        FileReader fr = null;
-        BufferedReader br = null;
-        int countMax = 0;
-        int countMaxAux = 0;
-        int count = 0;
-        int frec_doc = 0;       
-        String palabra = "";
-        String aux = "";
-        Termino t = null;
-        boolean encontrado = false;
-                             
-        for(int i = 0; i < lista[i].length(); i++)
-        {
-            
-            try
-            {
-                if(db == null) db = Datos.getSingleDB();
-                if(es_txt(lista[i])) 
-                {
-                    fr = new FileReader(lista[i]);
-                    br = new BufferedReader(fr);
-                }
-
-                while((aux = br.readLine()) != null) 
-                {
-                    st = new StringTokenizer(aux, " |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+");
-                    while(st.hasMoreTokens()) 
-                    {
-                        if(!ht.containsKey(aux)) 
+                        
+                        if(!hashAux.containsKey(palabra))
                         {
-                            t = new Termino(aux);
-                            ht.put(aux, t);
-                            //DBTermino.insertarTermino(db, aux);
-                        }
+                            palabra = palabra.replace("'", "''");
+                            hashAux.put(palabra, aux);
+                        }                      
                     }
-                }
-                if(countMaxAux != 0)
-                {
-                    DBTerminoXDocumento.insertarTerminoXDocumento(db, palabra, i + 1, countMaxAux);
-                    htAux.remove(palabra);
-                }
-
-                if(countMax < countMaxAux) 
-                {
-                    countMax = countMaxAux;
-                }
-
-                if(countMaxAux > 0) 
-                {
-                    count++;
-                }
-                countMaxAux = 0;
-                br.close();
+                    
+                }                
             } 
-            catch(Exception ex) 
+            //Recorrido de la hashAux
+            Enumeration e = hashAux.keys();
+            String clave;
+            while( e.hasMoreElements() )
             {
-                System.out.println("Error en la lectura del archivo");
+                clave = (String)e.nextElement();
+                DBTerminoXDocumento.insertarTerminoXDocumento(db, clave, i + 1, hashAux.get(clave).getMax_frec_aparicion());
+                ht.get(clave).setMax_frec_aparicion(0);
             }
-            t.setCant_doc_aparece(count);
-            t.setMax_frec_aparicion(countMax);  
-        } 
-        db.disconnect();  
-        */
+            hashAux = new Hashtable<>();
+        }          
     }            
         
             
