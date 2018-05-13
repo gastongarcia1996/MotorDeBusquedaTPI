@@ -19,6 +19,33 @@ public abstract class DBDocumento
     private final String frec_termino = "frec_termino";
     
     
+    public static boolean existeDocumento(DBManager db, String nombre){
+        String query = "SELECT * FROM documentos WHERE nombre = '" + nombre + "'";
+        ResultSet rs = null;
+        
+        try
+        {
+            if(db != null)
+            {
+                rs = db.executeQuery(query);
+            }
+            else
+            {
+                db = Datos.getSingleDB();
+                rs = db.executeQuery(query);
+            }
+            return rs.first();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
+       
+        return false;
+    }
+    
+    
     public static void insertarDocumento(DBManager db, String nombre)
     {
         try

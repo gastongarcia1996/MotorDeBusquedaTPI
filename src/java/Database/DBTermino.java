@@ -6,6 +6,7 @@
 package Database;
 
 import clases.Datos;
+import java.sql.ResultSet;
 
 /**
  *
@@ -34,5 +35,31 @@ public abstract class DBTermino
             //System.out.println("Error" + e.getMessage());
             System.out.println(e.getMessage());
         }
+    }
+    
+    public static boolean existeTermino(DBManager db, String palabra){
+        String query = "SELECT * FROM terminos WHERE palabra = '" + palabra + "'";
+        ResultSet rs = null;
+        
+        try
+        {
+            if(db != null)
+            {
+                rs = db.executeQuery(query);
+            }
+            else
+            {
+                db = Datos.getSingleDB();
+                rs = db.executeQuery(query);
+            }
+            return rs.first();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
+       
+        return false;
     }
 }

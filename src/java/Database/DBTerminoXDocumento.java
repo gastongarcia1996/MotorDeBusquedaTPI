@@ -6,6 +6,7 @@
 package Database;
 
 import clases.Datos;
+import java.sql.SQLException;
 
 /**
  *
@@ -38,5 +39,5 @@ public abstract class DBTerminoXDocumento
         
         
     }
-    
+
 }
