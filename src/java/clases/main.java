@@ -45,7 +45,14 @@ public class main {
         System.out.println("Armando vocabulario...");
         v.armar_vocabulario();
         System.out.println("Armando posteo...");
-        v.armar_posteo();
+        try
+        {
+            v.armar_posteo();
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
     
 }
