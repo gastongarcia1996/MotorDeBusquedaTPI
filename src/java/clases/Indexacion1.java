@@ -21,20 +21,24 @@ import java.util.StringTokenizer;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
  * @author dlcusr
  */
-public class Indexacion implements Serializable
+public class Indexacion1 implements Serializable
 {
     private Hashtable<String, Termino> ht = new Hashtable<>();
     private ArrayList<Documento> sl = new ArrayList<>();
     private int cantidad = 0;
     private StringTokenizer st = null;
     private String directory="DocumentosTPI";
+    private String tokenizerString=" |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+";
     private File[] lista = null;
     DBManager db = null;
+    FileReader fr = null;
+    BufferedReader br = null;
     
     /**
      * Arma el vocabulario del motor;
@@ -51,77 +55,61 @@ public class Indexacion implements Serializable
         
         try
         {
-            //db = Datos.getSingleDB();
             
-            String s = "";
-            //File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
             File archivo = new File(directory);
             lista = archivo.listFiles();
-            File fileAux = null; //variable auxiliar para recordar el documento en que estuve parado
-            
-            FileReader fr = null;
-            BufferedReader br = null;
-            //ciclo for que recorre la lista de documentos
-            for(int i = 0; i < lista[i].length(); i++)
-            {              
-                sl.add(new Documento(i, lista[i].getName()));
-                if(es_txt(lista[i]))
-                {
-                    fr = new FileReader(lista[i]);
-                    br = new BufferedReader(fr);
-                    fileAux = lista[i];
+            for(int i=0; i<lista.length;i++){
+                if(esTxt(lista[i])){
+                    procesarArchivo(lista[i]);
                 }
-                else throw new IOException();
-                //DBDocumento.insertarDocumento(db, lista[i].getName());
-                //ciclo que toma cada linea del documento
-                while((s = br.readLine()) != null)
-                {
-                    
-                    st = new StringTokenizer(s, " |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+");                   
-                    
-                    //ciclo que recorre las palabras y las agrega a una tabla hash
-                    //evitando que no se repitan
-                    while(st.hasMoreTokens()) 
-                    {      
-                        aux = st.nextToken().toLowerCase();
-                        
-                        
-                        aux = aux.replace("'", "''");
-                        
-                        //si el termino no esta en la hashtable
-                        if(!ht.containsKey(aux)) 
-                        {
-                            t1 = new Termino(aux);
-                            ht.put(aux, t1);
-                            //DBTermino.insertarTermino(db, aux);
-                        }
-                        /*
-                        else
-                        {
-                            t1 = ht.get(aux);
-                            if(!t1.getAl().contains(fileAux.getName()))
-                            {
-                                t1.getAl().add(fileAux.getName());
-                            }
-                        }
-                        */
-                    }
-                   
-                }
-                /*
-                if(countMax < countMaxAux) countMax = countMaxAux;
-                
-                if(countMaxAux > 0) count++;
-                countMaxAux = 0;
-                */
-                br.close();
-                              
-            }           
-            //db.disconnect();
+            }
+          
         }
         catch(Exception e)
         {
             System.out.println("Error al leer el archivo " + e.getMessage());
+        }
+    }
+    
+    public void procesarArchivo(File file){
+        try{File auxFile = file;
+        String textLine = "";
+            String auxFileName = auxFile.getName();
+            Hashtable<String, Integer> apariciones = new Hashtable<>();
+            if (esTxt(auxFile)) {
+                fr = new FileReader(auxFile);
+                br = new BufferedReader(fr);
+
+            } else {
+                System.out.println("NO ES texto .txt");
+            }
+            while ((textLine = br.readLine()) != null) {
+                st = new StringTokenizer(textLine, tokenizerString);
+
+                //ciclo que recorre la linea
+                while (st.hasMoreTokens()) {
+                    String aux;
+                    aux = st.nextToken().toLowerCase();
+                    aux = aux.replace("'", "''");
+                    if (apariciones.containsKey(aux)) {
+                        int auxApar = (int) apariciones.get(aux);
+                        auxApar++;
+                        apariciones.replace(aux, auxApar);
+                    } else {
+                        apariciones.put(aux, 1);
+                    }
+                }
+
+            }
+            Object[] keys = apariciones.entrySet().toArray();
+            for (int i = 0; i < keys.length; i++) {
+                String key;
+                key = String.valueOf(keys[i]);
+                DBTerminoXDocumento.insertarTerminoXDocumento(db, key, auxFile.getName(), apariciones.get(key));
+
+            }
+        }catch (Exception e){
+            
         }
     }
     
@@ -152,7 +140,7 @@ public class Indexacion implements Serializable
                         try
                         {
                             if(db == null) db = Datos.getSingleDB();
-                            if(es_txt(lista[i])) 
+                            if(esTxt(lista[i])) 
                             {
                                 fr = new FileReader(lista[i]);
                                 br = new BufferedReader(fr);
@@ -267,9 +255,11 @@ public class Indexacion implements Serializable
      * @param f: el archivo a validar
      * @return true si es un archivo txt y false en caso contrario
      */
-    private boolean es_txt(File f)
+    private boolean esTxt(File f)
     {
         return f.getName().endsWith(".txt") || f.getName().endsWith(".TXT");
     }
+
+
       
 }
