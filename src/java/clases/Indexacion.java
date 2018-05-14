@@ -22,6 +22,8 @@ import java.util.StringTokenizer;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -224,4 +226,23 @@ public class Indexacion implements Serializable
         return f.getName().endsWith(".txt") || f.getName().endsWith(".TXT");
     }
       
+    
+    public void crearHash(){
+        try {
+            db=Datos.getSingleDB();
+            Hashtable<String, Termino> tablaTerminos=new Hashtable<>();
+            int cantTerminos=DBTermino.countTerminos(db);
+            ArrayList<String> terminos=DBTermino.selectTerminos(db);
+            for(int i=0;i<cantTerminos;i++){
+                String word=terminos.get(i);
+                int frecMax=DBTerminoXDocumento.frecuenciaMaxTermino(db, word);
+                int cantApar=DBTerminoXDocumento.contarDocConTermino(db, word);
+                Termino term=new Termino(word, cantApar, frecMax);
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Indexacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }
