@@ -20,7 +20,7 @@ public abstract class DBDocumento
     
     
     public static boolean existeDocumento(DBManager db, String nombre){
-        String query = "SELECT * FROM documentos WHERE nombre = '" + nombre + "'";
+        String query = "SELECT * FROM documentos WHERE nombre = '" + nombre + "';";
         ResultSet rs = null;
         
         try
@@ -34,7 +34,7 @@ public abstract class DBDocumento
                 db = Datos.getSingleDB();
                 rs = db.executeQuery(query);
             }
-            return rs.first();
+            return rs.next();
         }
         catch(Exception e)
         {
@@ -51,8 +51,7 @@ public abstract class DBDocumento
         try
         {
         int num = 1;
-        String query = "INSERT INTO documentos(nombre, frec_termino) VALUES('" + nombre + "',"
-                + num + ");";
+        String query = "INSERT INTO documentos(nombre) VALUES('" + nombre + "');";
         if(db != null)
         {
             db.executeInsert(query);

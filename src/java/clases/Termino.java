@@ -15,6 +15,7 @@ public class Termino implements Comparable<Termino>, Serializable
     private String palabra;     
     private String significado; 
     private int cant_doc_aparece;
+    private int frec_aparicion;
     private int max_frec_aparicion;
     private ArrayList al;
     private String nom_doc;
@@ -67,7 +68,17 @@ public class Termino implements Comparable<Termino>, Serializable
     {
         this.nom_doc = nom_doc;
     }
-   
+
+    public int getMax_frec_aparicion() 
+    {
+        return max_frec_aparicion;
+    }
+
+    public void setMax_frec_aparicion(int max_frec_aparicion) 
+    {
+        this.max_frec_aparicion = max_frec_aparicion;
+    }
+      
     /**
      * Metodo de acceso al valor de la palabra.
      * @return el valor de la palabra.
@@ -123,14 +134,14 @@ public class Termino implements Comparable<Termino>, Serializable
      * Metodo que calcula retorna la cantidad de apariciones maxima en un documento
      * @return la frecuencia maxima de aparicion en un documento
      */
-    public int getMax_frec_aparicion() 
+    public int getFrec_aparicion() 
     {
-        return max_frec_aparicion;
+        return frec_aparicion;
     }
 
-    public void setMax_frec_aparicion(int max_frec_aparicion) 
+    public void setFrec_aparicion(int frec_aparicion) 
     {
-        this.max_frec_aparicion = max_frec_aparicion;
+        this.frec_aparicion = frec_aparicion;
     }
          
     /**
