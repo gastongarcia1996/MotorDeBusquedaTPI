@@ -57,7 +57,8 @@ public class Indexacion implements Serializable
         int countMax = 0;
         int countMaxAux = 0;
         FileReader fr = null;
-        BufferedReader br = null;
+        BufferedReader br = null; 
+        ArrayList<Termino> listAux = new ArrayList<>(); 
         
         try
         {
@@ -119,21 +120,29 @@ public class Indexacion implements Serializable
                             }       
                             */
                             aux = aux.replace("''", "'");
-                            
                             ht.put(aux, t1);                           
-                        }
-                        
+                        }                       
+                        listAux.add(ht.get(aux));                       
                     }
                    
                 }               
                 br.close();
-                              
+                for(Termino iterador : listAux)
+                {
+                    iterador.setCant_doc_aparece(iterador.getCant_doc_aparece() + 1);
+                }
+                listAux = new ArrayList<>();
             }           
             //db.disconnect();
         }
         catch(Exception e)
         {
             System.out.println("Error al leer el archivo " + e.getMessage());
+        }
+        
+        for(Termino t : listAux)
+        {
+            System.out.println(t.toString());
         }
     }
     

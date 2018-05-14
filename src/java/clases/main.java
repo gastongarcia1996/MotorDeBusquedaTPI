@@ -43,9 +43,10 @@ public class main extends Thread
         
         //v.armar_vocabulario();
         Indexacion v1 = new Indexacion();    
-        Indexacion v2 = new Indexacion();
+        //Indexacion v2 = new Indexacion();
         System.out.println("Armando vocabulario...");
         v1.armar_vocabulario();
+        /*
         v2.setLista(v1.getLista());
         v2.armar_vocabulario();
         
@@ -56,5 +57,8 @@ public class main extends Thread
         
         h1.start();               
         h2.start();
+        */
+        
+        
     } 
 }
