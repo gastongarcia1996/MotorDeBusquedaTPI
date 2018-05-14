@@ -7,6 +7,7 @@ package controladores;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author dlcusr
  */
-@WebServlet(name = "CtrlBusqueda", urlPatterns = {"/CtrlBusqueda"})
+@WebServlet(name = "CtrlBusqueda", urlPatterns = {"/ctrl-busqueda"})
 public class CtrlBusqueda extends HttpServlet {
 
     /**
@@ -35,6 +36,8 @@ public class CtrlBusqueda extends HttpServlet {
         
         
     }
+    
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -48,7 +51,7 @@ public class CtrlBusqueda extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doPost(request, response);
     }
 
     /**
@@ -62,6 +65,8 @@ public class CtrlBusqueda extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String toSearch=String.valueOf(request.getAttribute("texto"));
+        ArrayList<Resultado> lista= obtenerLista();
         processRequest(request, response);
     }
 
@@ -74,5 +79,9 @@ public class CtrlBusqueda extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private ArrayList<Resultado> obtenerLista() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
