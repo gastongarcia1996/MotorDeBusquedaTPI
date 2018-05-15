@@ -12,8 +12,12 @@ import Database.DBTermino;
 import Database.DBTerminoXDocumento;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -278,5 +282,22 @@ public class Indexacion implements Serializable {
 
         }
         return tablaTerminos;
+    }
+    
+    public void guardar_hashtable() throws IOException
+    {
+        File f = new File("Hashtable");
+        FileOutputStream fos = new FileOutputStream(f);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        
+        oos.writeObject(crearHash());
+    }
+    
+    private Hashtable leer_hashtable() throws IOException, ClassNotFoundException
+    {
+        FileInputStream fis = new FileInputStream("Hashtable");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        
+        return (Hashtable)ois.readObject();
     }
 }
