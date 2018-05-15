@@ -101,7 +101,7 @@ public abstract class DBTerminoXDocumento
         ResultSet rs=null;
         try
         {
-            int idDoc=DBDocumento.selectDocumentoId(db, nombreDoc).getInt(0);
+            int idDoc=DBDocumento.selectDocumentoId(db, nombreDoc);
             query = "SELECT frec_termino FROM terminoxdocumento WHERE palabra = "+palabra+" AND id_doc = "+idDoc+";";
             if(db != null)
             {
@@ -157,63 +157,34 @@ public abstract class DBTerminoXDocumento
     
     }
 
-    public static int contarDocConTermino(DBManager db, String word) {
-        String query = "SELECT count(id_doc) FROM terminoxdocumento WHERE palabra = '"+word+"';";
-        ResultSet rs = null;
-        
-        try
-        {
-            if(db != null)
-            {
-                rs = db.executeQuery(query);
-            }
-            else
-            {
-                db = Datos.getSingleDB();
-                rs = db.executeQuery(query);
-            }
-            rs.next();
-            return rs.getInt(1);
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-       
-        return 0;
-    
-    }
+//    public static int contarDocConTermino(DBManager db, String word) {
+//        String query = "SELECT count(id_doc) FROM terminoxdocumento WHERE palabra = '"+word+"';";
+//        ResultSet rs = null;
+//        
+//        try
+//        {
+//            if(db != null)
+//            {
+//                rs = db.executeQuery(query);
+//            }
+//            else
+//            {
+//                db = Datos.getSingleDB();
+//                rs = db.executeQuery(query);
+//            }
+//            rs.next();
+//            return rs.getInt(1);
+//        }
+//        catch(Exception e)
+//        {
+//            System.out.println(e.getMessage());
+//        }
+//        
+//       
+//        return 0;
+//    
+//    }
 
-    public static int frecuenciaTermino(DBManager db, String palabra, String nomArchivo) {
-        int idDoc=DBDocumento.selectDocumentoId(db, nomArchivo);
-        String query = "SELECT frec_termino FROM terminoxdocumento WHERE palabra = '"+palabra+"' AND id_doc = '"+idDoc+"';";
-        ResultSet rs = null;
-        
-        
-        try
-        {
-            if(db != null)
-            {
-                rs = db.executeQuery(query);
-            }
-            else
-            {
-                db = Datos.getSingleDB();
-                rs = db.executeQuery(query);
-            }
-            rs.next();
-                
-            return rs.getInt(1);
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-       
-        return 0;
     
-    }
 
 }
