@@ -69,9 +69,9 @@ public abstract class DBDocumento
         }
     }
     
-    public static ResultSet selectDocumentoId(DBManager db, String nombre)
+    public static int selectDocumentoId(DBManager db, String nombre)
     {
-        String query = "SELECT * FROM documentos WHERE nombre = '" + nombre + "'";
+        String query = "SELECT id_doc FROM documentos WHERE nombre = '" + nombre + "'";
         ResultSet rs = null;
         
         try
@@ -83,12 +83,42 @@ public abstract class DBDocumento
             else
             {
                 db = Datos.getSingleDB();
+                rs = db.executeQuery(query);
             }
+            rs.next();
+            return rs.getInt(1); 
         }
         catch(Exception e)
         {
             System.out.println(e.getMessage());
         }
-        return rs; 
+        return 0;
+    }
+    
+    public static int countDocumentos(DBManager db) {
+        String query = "SELECT count(id_doc) FROM documentos";
+        ResultSet rs = null;
+        
+        try
+        {
+            if(db != null)
+            {
+                rs = db.executeQuery(query);
+            }
+            else
+            {
+                db = Datos.getSingleDB();
+                rs = db.executeQuery(query);
+            }
+            rs.next();
+            return rs.getInt(1);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
+       
+        return 0;
     }
 }
