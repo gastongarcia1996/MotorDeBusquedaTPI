@@ -49,6 +49,12 @@ public class Termino implements Comparable<Termino>, Serializable
        significado = s;
     }
 
+    Termino(String word, int cantApar, int frecMax) {
+        palabra=word;
+        max_frec_aparicion=frecMax;
+        cant_doc_aparece=cantApar;
+    }
+
     public ArrayList getAl() 
     {
         return al;
