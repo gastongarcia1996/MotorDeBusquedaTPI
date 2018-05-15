@@ -295,5 +295,24 @@ public class Indexacion implements Serializable
     }
       
     
+    public void crearHash(){
+        try {
+            db=Datos.getSingleDB();
+            Hashtable<String, Termino> tablaTerminos=new Hashtable<>();
+            int cantTerminos=DBTermino.countTerminos(db);
+            ArrayList<String> terminos=DBTermino.selectTerminos(db);
+            for(int i=0;i<cantTerminos;i++){
+                String word=terminos.get(i);
+                int frecMax=DBTerminoXDocumento.frecuenciaMaxTermino(db, word);
+                int cantApar=DBTerminoXDocumento.contarDocConTermino(db, word);
+                Termino term=new Termino(word, cantApar, frecMax);
+            }
+            
+        } catch (Exception ex) {
+
+        }
+        
+    }
+    
     
 }
