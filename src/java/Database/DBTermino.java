@@ -7,6 +7,7 @@ package Database;
 
 import clases.Datos;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *
@@ -61,5 +62,62 @@ public abstract class DBTermino
         
        
         return false;
+    }
+
+    public static int countTerminos(DBManager db) {
+        String query = "SELECT count(palabra) FROM terminos";
+        ResultSet rs = null;
+        
+        try
+        {
+            if(db != null)
+            {
+                rs = db.executeQuery(query);
+            }
+            else
+            {
+                db = Datos.getSingleDB();
+                rs = db.executeQuery(query);
+            }
+            rs.next();
+            return rs.getInt(1);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
+       
+        return 0;
+    }
+
+    public static ArrayList<String> selectTerminos(DBManager db) {
+        String query = "SELECT palabra FROM terminos";
+        ResultSet rs = null;
+        ArrayList<String> list=new ArrayList<>();
+        
+        try
+        {
+            if(db != null)
+            {
+                rs = db.executeQuery(query);
+            }
+            else
+            {
+                db = Datos.getSingleDB();
+                rs = db.executeQuery(query);
+            }
+            while (rs.next()){
+                list.add(rs.getString(1));
+            }
+            return list;
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
+       
+        return list;
     }
 }
