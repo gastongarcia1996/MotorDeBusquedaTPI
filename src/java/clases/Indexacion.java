@@ -296,10 +296,11 @@ public class Indexacion implements Serializable
         this.lista = lista;
     }
       
-    public void crearHash(){
+    public Hashtable<String, Termino> crearHash(){
+    Hashtable<String, Termino> tablaTerminos=new Hashtable<>();
         try {
             db=Datos.getSingleDB();
-            Hashtable<String, Termino> tablaTerminos=new Hashtable<>();
+            
             int cantTerminos=DBTermino.countTerminos(db);
             ArrayList<String> terminos=DBTermino.selectTerminos(db);
             for(int i=0;i<cantTerminos;i++){
@@ -307,11 +308,12 @@ public class Indexacion implements Serializable
                 int frecMax=DBTerminoXDocumento.frecuenciaMaxTermino(db, word);
                 int cantApar=DBTerminoXDocumento.contarDocConTermino(db, word);
                 Termino term=new Termino(word, cantApar, frecMax);
+                tablaTerminos.put(word, term);
             }
             
         } catch (Exception ex) {
-            Logger.getLogger(Indexacion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+    
     }
+    return tablaTerminos;
+
 }

@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,8 +14,8 @@ import java.util.ArrayList;
  *
  * @author dlcusr
  */
-public class main extends Thread 
-{
+public class main {
+
     /**
      * @param args the command line arguments
      */
@@ -40,25 +41,19 @@ public class main extends Thread
         t3.setPalabra("Chau");
         System.out.println(al.toString());
         */
-        
-        //v.armar_vocabulario();
-        Indexacion v1 = new Indexacion();    
-        //Indexacion v2 = new Indexacion();
-        System.out.println("Armando vocabulario...");
-        v1.armar_vocabulario();
-        /*
-        v2.setLista(v1.getLista());
-        v2.armar_vocabulario();
-        
-        System.out.println("Armando posteo...");
-              
-        Hilo1 h1 = new Hilo1(v1);
-        Hilo2 h2 = new Hilo2(v2);
-        
-        h1.start();               
-        h2.start();
-        */
-        
-        
-    } 
+//        Indexacion v = new Indexacion();
+//        //v.armar_vocabulario();
+//        System.out.println("Armando vocabulario...");
+//        v.armar_vocabulario();
+//        System.out.println("Armando posteo...");
+//        try
+//        {
+//            v.armar_posteo();
+//        }
+//        catch(Exception e)
+//        {
+//            System.out.println(e.getMessage());
+//        }
+    }
 }
+
