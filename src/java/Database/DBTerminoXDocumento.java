@@ -194,6 +194,33 @@ public abstract class DBTerminoXDocumento
         return null;
     }
 
+    public static int countFrecXDocumento(DBManager db, String termino, String nombre_doc)
+    {
+        String query = "SELECT frec_termino FROM terminoxdocumento JOIN documentos ON terminoxdocumento.id_doc = documentos.id " +
+                       "WHERE palabra = '" + termino + "' AND documentos.nombre = '" + nombre_doc + "'";
+        ResultSet rs = null;
+        
+        try
+        {
+            if (db != null)
+            {
+                rs = db.executeQuery(query);
+            }
+            else
+            {
+                db = Datos.getSingleDB();
+                rs = db.executeQuery(query);
+            }
+            
+            if (rs.next()) return rs.getInt(1);
+        }
+        catch (Exception e)
+        {
+             System.out.println(e.getMessage());
+        }
+        
+        return 0;
+    }
 //    public static int contarDocConTermino(DBManager db, String word) {
 //        String query = "SELECT count(id_doc) FROM terminoxdocumento WHERE palabra = '"+word+"';";
 //        ResultSet rs = null;
