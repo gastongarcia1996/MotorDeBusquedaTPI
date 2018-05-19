@@ -20,20 +20,18 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author dlcusr
  */
-public class Indexacion implements Serializable {
+public class Indexacion implements Serializable 
+{
 
     private Hashtable<String, Termino> ht = new Hashtable<>();
     private ArrayList<Documento> al = new ArrayList<>();
@@ -43,47 +41,56 @@ public class Indexacion implements Serializable {
     private File[] lista = null;
     DBManager db = null;
 
-    public Indexacion() {
+    public Indexacion() 
+    {
     }
 
-    public Indexacion(File[] lista) {
+    public Indexacion(File[] lista) 
+    {
         this.lista = lista;
     }
 
     /**
      * Arma el vocabulario del motor;
      */
-    public void armar_vocabulario() {
+    public void armar_vocabulario() 
+    {
         Termino t1 = null;
         String aux = "";
-        String aux2 = "";
+        String clave = "";
         int countMax = 0;
         int countMaxAux = 0;
         FileReader fr = null;
         BufferedReader br = null;
-        ArrayList<Termino> listAux = new ArrayList<>();
+        Enumeration enumeration = null;
+        Hashtable<String, Termino> hashAux;
 
-        try {
+        try 
+        {
             db = Datos.getSingleDB();
 
             String s = "";
             //File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
 
-            if (lista == null) {
+            if (lista == null) 
+            {
                 File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
                 lista = archivo.listFiles();
             }
 
             //ciclo for que recorre la lista de documentos
-            for (int i = 0; i < lista.length; i++) {
+            for (int i = 0; i < lista.length; i++) 
+            {
                 al.add(new Documento(i, lista[i].getName()));
 
-                if (validarDocumento(db, lista[i])) {
+                if (validarDocumento(db, lista[i]))
+                {
                     fr = new FileReader(lista[i]);
                     br = new BufferedReader(fr);
-                } else {
-                    continue;
-                }
+                    hashAux = new Hashtable<>();
+                } 
+                else continue;
+                
 
 //                if(!DBDocumento.existeDocumento(db, lista[i].getName()))
 //                {
@@ -91,51 +98,88 @@ public class Indexacion implements Serializable {
 //                }
                 //DBDocumento.insertarDocumento(db, lista[i].getName());
                 //ciclo que toma cada linea del documento
-                while ((s = br.readLine()) != null) {
+                while ((s = br.readLine()) != null)
+                {
 
-                    st = new StringTokenizer(s, " |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+");
+                    st = new StringTokenizer(s, " ~¼±|\"°!#$%&/()=?¡^¶[]¿-\\/_*³.,«»;:<>+æ’");
 
                     //ciclo que recorre las palabras y las agrega a una tabla hash
                     //evitando que no se repitan
-                    while (st.hasMoreTokens()) {
+                    while (st.hasMoreTokens()) 
+                    {
                         aux = st.nextToken().toLowerCase();
-
+                           
+                        
                         //aux = aux.replace("'", "''");
                         //si el termino no esta en la hashtable
-                        if (!ht.containsKey(aux)) {
+                        if (!ht.containsKey(aux))
+                        {
                             t1 = new Termino(aux);
+                            hashAux.put(aux, t1);
 
-                            aux = aux.replace("'", "''");
+                            //aux = aux.replace("'", "''");
                             /*
                             if(!DBTermino.existeTermino(db, aux))
                             {
                                 DBTermino.insertarTermino(db, aux);
                             }       
                              */
-                            aux = aux.replace("''", "'");
+                            //aux = aux.replace("''", "'");
                             ht.put(aux, t1);
+                        } 
+                        else if (!hashAux.containsKey(aux))
+                        {                     
+                            hashAux.put(aux, ht.get(aux));                       
                         }
-                        listAux.add(ht.get(aux));
+                        
                     }
 
                 }
-                br.close();
-                for (Termino iterador : listAux) {
-                    iterador.setCant_doc_aparece(iterador.getCant_doc_aparece() + 1);
+                br.close();  
+                
+                enumeration = hashAux.keys();
+                while (enumeration.hasMoreElements())
+                {
+                    clave = (String)enumeration.nextElement();
+                    hashAux.get(clave).setCant_doc_aparece(hashAux.get(clave).getCant_doc_aparece() + 1);
                 }
-                listAux = new ArrayList<>();
+                hashAux = null;
             }
             //db.disconnect();
-        } catch (Exception e) {
-            System.out.println("Error al leer el archivo " + e.getMessage());
-        }
+        } 
+        catch(Exception ex) 
+        {
+            System.out.println("Error al leer el archivo " + ex.getMessage());
+        } 
+    }
+    /*
+    private void setear_cant_docs() throws IOException
+    {
+        
+        String palabra = "";
+        FileReader fr = null;
+        BufferedReader br = null;
+        Hashtable<String, Termino> hashAux = new Hashtable<>();
+        
+        for(int i = 0; i < lista.length; i++)
+        {
+            fr = new FileReader(lista[i]);
+            br = new BufferedReader(br);
+            
+            while((palabra = br.readLine()) != null)
+            {
+                st = new StringTokenizer(palabra, " ~¼±|\"°!#$%&/()=?¡^¶[]¿-\\/_*³.,«»;:<>+æ’");
 
-        for (Termino t : listAux) {
-            System.out.println(t.toString());
+                while(st.hasMoreTokens()) 
+                {
+                    if(hashAux)
+                }
+            }
         }
     }
-
-    public void armar_posteo(int desde, int hasta) throws Exception {
+    */
+    public void armar_posteo(int desde, int hasta) throws Exception 
+    {
         String palabra = "";
         int cont = 0;
         int id_doc = 0;
@@ -146,7 +190,7 @@ public class Indexacion implements Serializable {
         db = Datos.getSingleDB();
         int i;
 
-        for (i = desde; i < hasta; i++)//Sacar el 10
+        for(i = desde; i < hasta; i++)//Sacar el 10
         {
 
             /*
@@ -161,16 +205,20 @@ public class Indexacion implements Serializable {
             fr = new FileReader(lista[i]);
             br = new BufferedReader(fr);
 
-            while ((palabra = br.readLine()) != null) {
-                st = new StringTokenizer(palabra, " |\"°!#$%&/()=?¡^[]¿-\\/_*.,;:<>+");
+            while((palabra = br.readLine()) != null)
+            {
+                st = new StringTokenizer(palabra, " ~¼±|\"°!#$%&/()=?¡^¶[]¿-\\/_*³.,«»;:<>+æ’");
 
-                while (st.hasMoreTokens()) {
+                while(st.hasMoreTokens()) 
+                {
                     palabra = st.nextToken().toLowerCase();
-                    if (ht.containsKey(palabra)) {
+                    if(ht.containsKey(palabra)) 
+                    {
                         aux = ht.get(palabra);
                         aux.setFrec_aparicion(aux.getFrec_aparicion() + 1);
 
-                        if (!hashAux.containsKey(palabra)) {
+                        if(!hashAux.containsKey(palabra)) 
+                        {
                             palabra = palabra.replace("'", "''");
                             hashAux.put(palabra, aux);
                         }
@@ -192,22 +240,25 @@ public class Indexacion implements Serializable {
      * @param f El archivo a validar
      * @return true sale todo bien, false en caso contrario
      */
-    private boolean validarDocumento(DBManager db, File f) {
-        if (es_txt(f)) {
-            if (!DBDocumento.existeDocumento(db, f.getName())) {
+    private boolean validarDocumento(DBManager db, File f)
+    {
+        if(es_txt(f)) 
+        {
+            if(!DBDocumento.existeDocumento(db, f.getName())) 
+            {
                 DBDocumento.insertarDocumento(db, f.getName());
             }
-        } else {
-            return false;
-        }
-
+        } else return false;
+        
         return true;
     }
 
-    private void insertarABasePosteo(Hashtable<String, Termino> ht, int id_doc) {
+    private void insertarABasePosteo(Hashtable<String, Termino> ht, int id_doc)
+    {
         Enumeration e = ht.keys();
         String clave;
-        while (e.hasMoreElements()) {
+        while(e.hasMoreElements()) 
+        {
             clave = (String) e.nextElement();
             DBTerminoXDocumento.insertarTerminoXDocumento(db, clave, id_doc, ht.get(clave).getFrec_aparicion());
             clave = clave.replace("''", "'");
@@ -215,37 +266,46 @@ public class Indexacion implements Serializable {
         }
     }
 
-    public File[] getLista() {
+    public File[] getLista()
+    {
         return lista;
     }
 
-    public void obtenerDocumentos() {
-        try {
+    public void obtenerDocumentos() 
+    {
+        try 
+        {
             db = Datos.getSingleDB();
             File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
             File[] lista = archivo.listFiles();
 
             //ciclo for que recorre la lista de documentos
-            for (int i = 0; i < lista.length; i++) {
+            for(int i = 0; i < lista.length; i++) 
+            {
                 //sl.add(new Documento(i, lista[i].getName()));
                 DBDocumento.insertarDocumento(db, lista[i].getName());
             }
             db.disconnect();
-        } catch (Exception e) {
+        } 
+        catch (Exception e) 
+        {
             System.out.println(e.getMessage());
         }
 
     }
 
-    public List getDocumentosList() {
+    public ArrayList<Documento> getDocumentosList() 
+    {
         return al;
     }
 
-    public Hashtable<String, Termino> getHt() {
+    public Hashtable<String, Termino> getHt()
+    {
         return ht;
     }
 
-    public void setHt(Hashtable<String, Termino> ht) {
+    public void setHt(Hashtable<String, Termino> ht) 
+    {
         this.ht = ht;
     }
 
@@ -255,22 +315,27 @@ public class Indexacion implements Serializable {
      * @param f: el archivo a validar
      * @return true si es un archivo txt y false en caso contrario
      */
-    private boolean es_txt(File f) {
+    private boolean es_txt(File f) 
+    {
         return f.getName().endsWith(".txt") || f.getName().endsWith(".TXT");
     }
 
-    public void setLista(File[] lista) {
+    public void setLista(File[] lista) 
+    {
         this.lista = lista;
     }
 
-    public Hashtable<String, Termino> crearHash() {
+    public Hashtable<String, Termino> crearHash()
+    {
         Hashtable<String, Termino> tablaTerminos = new Hashtable<>();
-        try {
+        try 
+        {
             db = Datos.getSingleDB();
 
             int cantTerminos = DBTermino.countTerminos(db);
             ArrayList<String> terminos = DBTermino.selectTerminos(db);
-            for (int i = 0; i < cantTerminos; i++) {
+            for(int i = 0; i < cantTerminos; i++) 
+            {
                 String word = terminos.get(i);
                 int frecMax = DBTerminoXDocumento.frecuenciaMaxTermino(db, word);
                 int cantApar = DBTerminoXDocumento.contarDocConTermino(db, word);
@@ -278,8 +343,10 @@ public class Indexacion implements Serializable {
                 tablaTerminos.put(word, term);
             }
 
-        } catch (Exception ex) {
-
+        } 
+        catch (Exception ex) 
+        {
+            System.out.println("Error: " + ex.getMessage());
         }
         return tablaTerminos;
     }

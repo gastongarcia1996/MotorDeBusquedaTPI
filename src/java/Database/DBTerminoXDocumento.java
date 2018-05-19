@@ -6,6 +6,7 @@
 package Database;
 
 import clases.Datos;
+import clases.Documento;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,7 +43,8 @@ public abstract class DBTerminoXDocumento
         
     }
     
-    public static int contarDocumentos(DBManager db){
+    public static int contarDocumentos(DBManager db)
+    {
         String query = "";
         ResultSet rs=null;
         try
@@ -69,7 +71,8 @@ public abstract class DBTerminoXDocumento
         return 0;
     }
     
-    public static int contarDocConTermino(DBManager db, String palabra){
+    public static int contarDocConTermino(DBManager db, String palabra)
+    {
         String query = "";
         ResultSet rs=null;
         try
@@ -96,7 +99,8 @@ public abstract class DBTerminoXDocumento
         return 0;
     }
     
-    public static int frecuenciaTermino(DBManager db, String palabra, String nombreDoc){
+    public static int frecuenciaTermino(DBManager db, String palabra, String nombreDoc)
+    {
                 String query = "";
         ResultSet rs=null;
         try
@@ -125,10 +129,11 @@ public abstract class DBTerminoXDocumento
     }
     
 
-    public static int frecuenciaMaxTermino(DBManager db, String word) {
+    public static int frecuenciaMaxTermino(DBManager db, String word) 
+    {
         String query = "SELECT MAX(terminoxdocumento.frec_termino)  FROM terminoxdocumento WHERE palabra = '"+word+"'\n" +
-"GROUP BY terminoxdocumento.id_doc\n" +
-"ORDER BY MAX(terminoxdocumento.frec_termino) DESC";
+        "GROUP BY terminoxdocumento.id_doc\n" +
+        "ORDER BY MAX(terminoxdocumento.frec_termino) DESC";
         ResultSet rs = null;
         
         
@@ -155,6 +160,38 @@ public abstract class DBTerminoXDocumento
        
         return 0;
     
+    }
+    
+    public static ResultSet documentosxtermino(DBManager db, String palabra, int r)
+    {
+        
+        String query = "SELECT documentos.nombre, MAX(terminoxdocumento.frec_termino) FROM terminoxdocumento JOIN documentos ON documentos.id = terminoxdocumento.id_doc" +
+                       " WHERE terminoxdocumento.palabra = '" + palabra + "' GROUP BY terminoxdocumento.id_doc, documentos.nombre" +
+                       " ORDER BY MAX(terminoxdocumento.frec_termino) DESC LIMIT " + r;
+        
+        ResultSet rs = null;
+        
+        try
+        {
+            if(db != null)
+            {
+                rs = db.executeQuery(query);
+            }
+            else
+            {
+                db = Datos.getSingleDB();
+                rs = db.executeQuery(query);
+            }
+            
+            if(rs.next()) return rs;
+                            
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
+        return null;
     }
 
 //    public static int contarDocConTermino(DBManager db, String word) {

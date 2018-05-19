@@ -41,10 +41,11 @@ public class main {
         t3.setPalabra("Chau");
         System.out.println(al.toString());
         */
-//        Indexacion v = new Indexacion();
-//        //v.armar_vocabulario();
-//        System.out.println("Armando vocabulario...");
+        Indexacion v = new Indexacion();
 //        v.armar_vocabulario();
+        System.out.println("Armando vocabulario...");
+        v.armar_vocabulario();
+        System.out.println(v.getHt());
 //        System.out.println("Armando posteo...");
 //        try
 //        {
