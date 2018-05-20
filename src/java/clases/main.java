@@ -8,6 +8,7 @@ package clases;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 
 /**
@@ -43,9 +44,20 @@ public class main {
         */
         Indexacion v = new Indexacion();
 //        v.armar_vocabulario();
-        System.out.println("Armando vocabulario...");
+        System.out.println("Armando vocabulario...");        
+        
+        Consulta c = new Consulta();
         v.armar_vocabulario();
-        System.out.println(v.getHt());
+        Hashtable<String, Termino> ht = v.getHt();
+        try
+        {
+            List list = c.ordenarPorRelevancia("project", ht, 6, v.getDocumentosList().size());
+            list.toString();
+        }
+        catch (Exception e)
+        {
+            
+        }
 //        System.out.println("Armando posteo...");
 //        try
 //        {

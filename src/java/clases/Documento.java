@@ -9,12 +9,12 @@ package clases;
  *
  * @author dlcusr
  */
-public class Documento 
+public class Documento
 {
     private int id_doc;
     private String nombre_doc;
     private int frecuencia_termino;
-    private int peso;
+    private double peso;
 
     public Documento()
     {
@@ -61,12 +61,12 @@ public class Documento
         this.frecuencia_termino = frecuencia_termino;
     }
      
-    public int getPeso()
+    public double getPeso()
     {
         return this.peso;
     }
     
-    public void setPeso(int peso)
+    public void setPeso(double peso)
     {
         this.peso = peso;
     }

@@ -34,7 +34,7 @@ public class Indexacion implements Serializable
 {
 
     private Hashtable<String, Termino> ht = new Hashtable<>();
-    private ArrayList<Documento> al = new ArrayList<>();
+    private LinkedList<Documento> al = new LinkedList<>();
     private LinkedList<Termino> ll = new LinkedList<>();
     private int cantidad = 0;
     private StringTokenizer st = null;
@@ -294,7 +294,7 @@ public class Indexacion implements Serializable
 
     }
 
-    public ArrayList<Documento> getDocumentosList() 
+    public LinkedList<Documento> getDocumentosList() 
     {
         return al;
     }

@@ -5,20 +5,27 @@
  */
 package controladores;
 
+import clases.Consulta;
+import clases.Documento;
+import clases.Indexacion;
+import clases.Termino;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import web.ErrorMsg;
 
 /**
  *
- * @author dlcusr
+ * @author Gaston
  */
-@WebServlet(name = "CtrlBusqueda", urlPatterns = {"/ctrl-busqueda"})
 public class CtrlBusqueda extends HttpServlet {
 
     /**
@@ -34,10 +41,34 @@ public class CtrlBusqueda extends HttpServlet {
             throws ServletException, IOException 
     {
         
+        String titulo = "Error";
+        String dest = "/error.jsp";
+        ErrorMsg errorMsg = null;
+        Hashtable<String, Termino> ht = new Hashtable<>();
+        LinkedList<Documento> listDoc = new LinkedList();
+        Indexacion index = new Indexacion();
+        
+        try
+        {
+            index.armar_vocabulario();
+            Consulta c = new Consulta();
+            String consulta = request.getParameter("consulta");
+            
+            List docs = c.ordenarPorRelevancia(consulta, ht, 7, index.getDocumentosList().size());
+            request.setAttribute("documentos", docs); 
+            dest = "/index.jsp";
+        }
+        catch (Exception e)
+        {
+            errorMsg = new ErrorMsg(titulo, e.getMessage());
+            request.setAttribute("errorMsg", errorMsg);
+        }
+        
+        ServletContext app = this.getServletContext();
+        RequestDispatcher disp = app.getRequestDispatcher(dest);
+        disp.forward(request, response);
         
     }
-    
-
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -51,7 +82,7 @@ public class CtrlBusqueda extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doPost(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -65,8 +96,6 @@ public class CtrlBusqueda extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String toSearch=String.valueOf(request.getAttribute("texto"));
-        ArrayList<Resultado> lista= obtenerLista();
         processRequest(request, response);
     }
 
@@ -79,9 +108,5 @@ public class CtrlBusqueda extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private ArrayList<Resultado> obtenerLista() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }
