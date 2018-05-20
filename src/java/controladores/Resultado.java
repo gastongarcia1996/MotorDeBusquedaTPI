@@ -17,26 +17,47 @@ import clases.Datos;
  */
 public class Resultado {
     public String nomArchivo;
-    public String palabra;
-    public float peso;
+    public String[] terminos;
+    public float[] pesosBase;
+    public float[] pesos;
     DBManager db=Datos.getSingleDB();
     
-    public Resultado(String palabra, String nomDoc) throws Exception{
-        this.palabra=palabra;
+    public Resultado(String[] palabras, String nomDoc) throws Exception{
+        this.terminos=palabras;
         nomArchivo=nomDoc;
-        peso=calcularPeso();
+        pesos=new float[terminos.length];
+        calcularModuloBase();
     }
     
-    public float calcularPeso() throws Exception{
-        float weight=0f;
-        int cantDoc=DBDocumento.countDocumentos(db);
-        int cantDocAparece= DBTerminoXDocumento.contarDocConTermino(db,palabra);
-        int frec=DBTerminoXDocumento.frecuenciaTermino(db,palabra,nomArchivo);
-        
-        //TODO
-        //weight= (frec*Math.log(cantDocAparece/(float)cantDoc))/sumatoriaQueNoSeHacer;
-        return weight;
+   public float[] calcularPesos() throws Exception{
+        for(int i=0;i<pesos.length;i++){
+            float weight=0f;
+            int cantDoc=DBDocumento.countDocumentos(db);
+            int cantDocAparece= DBTerminoXDocumento.contarDocConTermino(db,terminos[i]);
+            int frec=DBTerminoXDocumento.frecuenciaTermino(db,terminos[i],nomArchivo);
+            weight=(float) ( (frec*Math.log(cantDocAparece/(float)cantDoc))  /  Math.sqrt(sumatoria())  );
+            pesos[i]=weight;
+        }
+        return pesos;
     }
+   private void calcularModuloBase(){
+       pesosBase=new float[terminos.length];
+       for (int i = 0; i < terminos.length; i++) {
+           int cantDoc=DBDocumento.countDocumentos(db);
+           int cantDocAparece= DBTerminoXDocumento.contarDocConTermino(db,terminos[i]);
+           int frec=DBTerminoXDocumento.frecuenciaTermino(db,terminos[i],nomArchivo);
+           pesosBase[i]=(float)(frec*Math.log(cantDocAparece/(float)cantDoc));
+       }
+       
+   }
+   
+   private float sumatoria(){
+       float sumatoria=0;
+       for(int i=0;i<pesosBase.length;i++){
+           sumatoria+=pesosBase[i]*pesosBase[i];
+       }
+       return sumatoria;
+   }
 }
 
 /*
