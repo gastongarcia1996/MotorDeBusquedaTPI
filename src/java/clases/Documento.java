@@ -11,10 +11,10 @@ package clases;
  */
 public class Documento
 {
-    private int id_doc;
+    private int id_doc = 0;
     private String nombre_doc;
     private int frecuencia_termino;
-    private double peso;
+    private double peso = 0;
 
     public Documento()
     {

@@ -63,11 +63,12 @@ public class Indexacion implements Serializable
         FileReader fr = null;
         BufferedReader br = null;
         Enumeration enumeration = null;
-        Hashtable<String, Termino> hashAux;
+        Hashtable<String, Termino> hashAux = new Hashtable<>();
 
         try 
         {
-            db = Datos.getSingleDB();
+                
+            //db = Datos.getSingleDB();
 
             String s = "";
             //File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
@@ -146,6 +147,7 @@ public class Indexacion implements Serializable
                 hashAux = null;
             }
             //db.disconnect();
+            //guardar_hashtable();          
         } 
         catch(Exception ex) 
         {
@@ -299,6 +301,11 @@ public class Indexacion implements Serializable
         return al;
     }
 
+    public int cantDocs()
+    {
+        return lista.length;
+    }
+    
     public Hashtable<String, Termino> getHt()
     {
         return ht;
@@ -357,14 +364,19 @@ public class Indexacion implements Serializable
         FileOutputStream fos = new FileOutputStream(f);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         
-        oos.writeObject(crearHash());
+        //oos.writeObject(crearHash());
+        oos.writeObject(ht);
     }
     
     private Hashtable leer_hashtable() throws IOException, ClassNotFoundException
     {
-        FileInputStream fis = new FileInputStream("Hashtable");
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        
-        return (Hashtable)ois.readObject();
+        File f = new File("Hashtable");
+        if (f.exists() && f.isFile())
+        {
+            FileInputStream fis = new FileInputStream("Hashtable");
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            return (Hashtable)ois.readObject();
+        }                
+        return null;
     }
 }

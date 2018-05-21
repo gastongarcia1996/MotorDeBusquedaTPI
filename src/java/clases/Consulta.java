@@ -24,48 +24,54 @@ public class Consulta
 {   
     private LinkedList<String> aux = new LinkedList<>();
     
-    public List ordenarPorRelevancia(String consulta, Hashtable<String, Termino> ht, int r, int totalDocs) throws Exception
+    public LinkedList<Documento> ordenarPorRelevancia(String consulta, Hashtable<String, Termino> ht, int r, int totalDocs) throws Exception
     {
         LinkedList<String> listAux = procesar_consulta(consulta, ht, r); //lista de documentos de la consulta
         LinkedList<Documento> docs = new LinkedList<>(); //lista a retornar de documentos ordenados por relevancia
-        LinkedList<Documento> listRet = new LinkedList<>();
+        LinkedList<Documento>listRet = new LinkedList<>();
         double peso = 0;
         int rec = 0;
-        int i = 0;
-        Documento menor = null;
+        int i = 1;
+        double idf = 0;
+        int tf = 0;
+        
+        Documento mayor = null;
         
         DBManager db = Datos.getSingleDB();
         
         for (String doc : listAux)
         {
-            docs.add(new Documento(doc)); //llenar la lista de los documentos
+            docs.add(new Documento(i ,doc)); //llenar la lista de los documentos
+            i++;
         }
-        
+        i = 0;
         for (String term : aux)
         {
             for (Documento d : docs)
             {
-                peso = (double)(DBTerminoXDocumento.countFrecXDocumento(db, term, d.getNombre_doc()) * 
-                        Math.log(totalDocs / ht.get(term).getCant_doc_aparece()));
+                tf = DBTerminoXDocumento.countFrecXDocumento(db, term.replace("'", "''"), d.getNombre_doc());
+                idf = Math.log(totalDocs / ht.get(term.replace("''", "'")).getCant_doc_aparece());
+                peso = (double)(tf * idf);
                 d.setPeso(d.getPeso() + peso);
             }
         }
         
         while (!docs.isEmpty())
         {
-            menor = docs.getFirst();
+            mayor = docs.getFirst();
             
             for (i = 1; i < docs.size(); i++)
             {
-                if (menor.getPeso() > docs.get(i).getPeso())
+                if (mayor.getPeso() < docs.get(i).getPeso())
                 {
-                    menor = docs.get(i);
+                    mayor = docs.get(i);
                     rec = i;
                 }
             }
+            listRet.add(mayor);
             if (docs.size() != 1) docs.remove(rec);
             else docs.removeFirst();
-            listRet.add(menor);
+            rec = 0;            
         }
                 
         return listRet;
@@ -82,25 +88,28 @@ public class Consulta
         
         if (r <= 0) r = 6;
         
-        while (cont < r)
-        {                       
-            
-            if (listAux.size() > 0)
+        //while (cont < r)
+        //{                       
+            while (!listAux.isEmpty())
             {
                 termino = listAux.getFirst();
                 listAux.removeFirst();
             
             
-                ResultSet rs = DBTerminoXDocumento.documentosxtermino(db, termino.getPalabra(), r - cont);
+                ResultSet rs = DBTerminoXDocumento.documentosxtermino(db, termino.getPalabra().replace("'", "''"), r);
             
                 while(rs.next())
-                {                    
-                    list.add(rs.getString(1));
+                {    
+                    if (!list.contains(rs.getString(1)))
+                    {
+                        list.add(rs.getString(1));
+                    }
+                    
                     cont++;
                 }
+            
+            //else break;
             }
-            else break;
-        }
         
         return list;
     }
@@ -114,10 +123,11 @@ public class Consulta
         
         String aux = "";
         int i = 0;
+        int rec = 0;
         
         for (i = 0; st.hasMoreTokens(); i++)
         {
-            aux = st.nextToken();
+            aux = st.nextToken().trim();
             if (ht.containsKey(aux))
             {
                 this.aux.add(aux);
@@ -131,16 +141,16 @@ public class Consulta
             {
                 if (menor.getCant_doc_aparece() > listAux.get(i).getCant_doc_aparece())
                 {
-                    menor = list.get(i);
+                    menor = listAux.get(i);
+                    rec = i;
                 }
                     
             }
-            if (listAux.size() != 1) listAux.remove(i);
-            else listAux.removeFirst();
             list.add(menor);
+            if (listAux.size() != 1) listAux.remove(rec);
+            else listAux.removeFirst(); 
+            rec = 0;
         }
         return list;
     }
-    
-    
 }

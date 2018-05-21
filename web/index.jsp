@@ -5,7 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
         <title>Motor de Busqueda</title>
@@ -26,6 +26,7 @@
         </div>
         
         <form method="post" action="<c:url value="/consulta"/>">
+            <div>${formMsg}</div>
             <div class="row" style="position: relative; left: 1em;">          
                 <div class="col-md-9">
                     <div class="input-group" style="width: 45em">
@@ -33,7 +34,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><strong>Ingrese la consulta</strong></span> 
                         </div>
-                        <input type="text" class="form-control" value="${consulta}" placeholder="Ingrese la consulta" aria-describedby="basic-addon1">                   
+                        <input type="text" class="form-control" name="consulta" placeholder="Ingrese la consulta" aria-describedby="basic-addon1">                   
                         <span class="input-group-append" aria-hidden="true"><button type="submit" class="btn btn-primary"> 
                                 <span><i class="fas fa-search"></i></span> Buscar</button></span>                   
                     </div>   
@@ -60,10 +61,10 @@
                     <th><h4>Peso</h4></th>
                     </thead>
                     <tbody>
-                        <c:forEach items="${docs}" var="documento">
+                        <c:forEach items="${documentos}" var="documento">
                             <tr>
                                 <td>${documento.id_doc}</td>
-                                <td>${documento.nombre_doc}</td>  
+                                <td><a name="documento" href="<c:url value="/documento"/>" target="_blank">${documento.nombre_doc}</a></td>  
                                 <td>${documento.peso}</td>
                             </tr>
                         </c:forEach>

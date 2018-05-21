@@ -21,26 +21,7 @@
         <br />
        <h4><strong>Documentos</strong></h4> 
        
-        <div class="row">
-            <div class="col-md-6" id="div_carga">
-                
-                <table class="table table-hover table-bordered">
-                    <thead>
-                    <th><h4>Id</h4></th>
-                    <th><h4>Nombre</h4></th>                
-                    </thead>
-                    <tbody>
-                        <c:forEach items="${docs}" var="documento">
-                            <tr>
-                                <td>${documento.id_doc}</td>
-                                <td>${documento.nombre_doc}</td>                              
-                            </tr>
-                        </c:forEach>
-                            
-                    </tbody>
-                </table>
-            </div>
-        </div> 
+       <object type="text/plain" data="DocumentosTPI/00ws110.txt"></object>
         
     <jsp:include page="footer.jsp"/>
 </body>

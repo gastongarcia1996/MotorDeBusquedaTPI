@@ -8,7 +8,9 @@ package clases;
 
 import java.util.List;
 import java.util.ArrayList;
+import static java.util.Collections.list;
 import java.util.Hashtable;
+import java.util.LinkedList;
 
 
 /**
@@ -49,15 +51,16 @@ public class main {
         Consulta c = new Consulta();
         v.armar_vocabulario();
         Hashtable<String, Termino> ht = v.getHt();
+        /*System.out.println(ht.get("project").getCant_doc_aparece());
         try
         {
-            List list = c.ordenarPorRelevancia("project", ht, 6, v.getDocumentosList().size());
-            list.toString();
+            System.out.println(c.ordenarPorRelevancia("project", ht, 6, v.getDocumentosList().size()));            
         }
         catch (Exception e)
         {
-            
+            System.out.println("Error");
         }
+*/
 //        System.out.println("Armando posteo...");
 //        try
 //        {

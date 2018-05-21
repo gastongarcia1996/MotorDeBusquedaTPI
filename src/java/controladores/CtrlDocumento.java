@@ -5,15 +5,9 @@
  */
 package controladores;
 
-import clases.Consulta;
-import clases.Documento;
-import clases.Indexacion;
-import clases.Termino;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Hashtable;
-import java.util.LinkedList;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -26,7 +20,7 @@ import web.ErrorMsg;
  *
  * @author Gaston
  */
-public class CtrlBusqueda extends HttpServlet {
+public class CtrlDocumento extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,25 +34,14 @@ public class CtrlBusqueda extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
-        
+        ErrorMsg errorMsg = null;
         String titulo = "Error";
         String dest = "/error.jsp";
-        ErrorMsg errorMsg = null;
-        Hashtable<String, Termino> ht = new Hashtable<>();
-        LinkedList<Documento> listDoc = new LinkedList();
-        Indexacion index = new Indexacion();
-        int cant_doc = 0;
-        
+                
         try
         {
-            index.armar_vocabulario();
-            Consulta c = new Consulta();
-            String consulta = request.getParameter("consulta");
-            consulta = consulta.toLowerCase();
-            cant_doc = index.getDocumentosList().size();
-            List documentos = c.ordenarPorRelevancia(consulta, index.getHt(), 3, cant_doc);
-            request.setAttribute("documentos", documentos); 
-            dest = "/index.jsp";
+            //File f = new File(request.getParameter("documento"));
+            dest = "/documento.jsp";
         }
         catch (Exception e)
         {
@@ -69,7 +52,6 @@ public class CtrlBusqueda extends HttpServlet {
         ServletContext app = this.getServletContext();
         RequestDispatcher disp = app.getRequestDispatcher(dest);
         disp.forward(request, response);
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
