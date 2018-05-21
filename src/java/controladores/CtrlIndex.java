@@ -5,6 +5,7 @@
  */
 package controladores;
 
+import clases.Helper;
 import clases.Indexacion;
 import clases.Termino;
 import java.io.IOException;
@@ -34,18 +35,12 @@ public class CtrlIndex extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Indexacion index = new Indexacion();
-        index.armar_vocabulario();
-        Hashtable<String, Termino> hash=index.getHt();
-        hash.toString();
-        request.setAttribute("index", index);
+        Helper.armarVocabulario();
         String dest = "/index.jsp";
         ServletContext app = this.getServletContext();
         RequestDispatcher disp = app.getRequestDispatcher(dest);
         disp.forward(request, response);
-        
-        
-        
+            
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

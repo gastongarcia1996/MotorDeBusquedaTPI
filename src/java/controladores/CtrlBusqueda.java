@@ -7,6 +7,7 @@ package controladores;
 
 import clases.Consulta;
 import clases.Documento;
+import clases.Helper;
 import clases.Indexacion;
 import clases.Termino;
 import java.io.IOException;
@@ -37,6 +38,9 @@ public class CtrlBusqueda extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    static Indexacion index=Helper.index;
+    static Hashtable<String, Termino> ht = Helper.getHt();
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
@@ -44,14 +48,14 @@ public class CtrlBusqueda extends HttpServlet {
         String titulo = "Error";
         String dest = "/error.jsp";
         ErrorMsg errorMsg = null;
-        Hashtable<String, Termino> ht = new Hashtable<>();
+        
         LinkedList<Documento> listDoc = new LinkedList();
-        Indexacion index = new Indexacion();
+
+        
         int cant_doc = 0;
         
         try
         {
-            index.armar_vocabulario();
             Consulta c = new Consulta();
             String consulta = request.getParameter("consulta");
             consulta = consulta.toLowerCase();

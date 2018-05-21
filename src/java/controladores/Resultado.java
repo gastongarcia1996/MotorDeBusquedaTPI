@@ -29,35 +29,40 @@ public class Resultado {
         calcularModuloBase();
     }
     
-   public float[] calcularPesos() throws Exception{
-        for(int i=0;i<pesos.length;i++){
-            float weight=0f;
-            int cantDoc=DBDocumento.countDocumentos(db);
-            int cantDocAparece= DBTerminoXDocumento.contarDocConTermino(db,terminos[i]);
-            int frec=DBTerminoXDocumento.frecuenciaTermino(db,terminos[i],nomArchivo);
-            weight=(float) ( (frec*Math.log(cantDocAparece/(float)cantDoc))  /  Math.sqrt(sumatoria())  );
-            pesos[i]=weight;
-        }
-        return pesos;
-    }
-   private void calcularModuloBase(){
+    private void calcularModuloBase(){
        pesosBase=new float[terminos.length];
+       int cantDoc=DBDocumento.countDocumentos(db);
        for (int i = 0; i < terminos.length; i++) {
-           int cantDoc=DBDocumento.countDocumentos(db);
+           
            int cantDocAparece= DBTerminoXDocumento.contarDocConTermino(db,terminos[i]);
            int frec=DBTerminoXDocumento.frecuenciaTermino(db,terminos[i],nomArchivo);
            pesosBase[i]=(float)(frec*Math.log(cantDocAparece/(float)cantDoc));
        }
        
    }
+    
+    
+    
+//   public float[] calcularPesos() throws Exception{
+//        for(int i=0;i<pesos.length;i++){
+//            float weight=0f;
+//            int cantDoc=DBDocumento.countDocumentos(db);
+//            int cantDocAparece= DBTerminoXDocumento.contarDocConTermino(db,terminos[i]);
+//            int frec=DBTerminoXDocumento.frecuenciaTermino(db,terminos[i],nomArchivo);
+//            weight=(float) ( (frec*Math.log(cantDocAparece/(float)cantDoc))  /  Math.sqrt(sumatoria())  );
+//            pesos[i]=weight;
+//        }
+//        return pesos;
+//    }
    
-   private float sumatoria(){
-       float sumatoria=0;
-       for(int i=0;i<pesosBase.length;i++){
-           sumatoria+=pesosBase[i]*pesosBase[i];
-       }
-       return sumatoria;
-   }
+   
+//   private float sumatoria(){
+//       float sumatoria=0;
+//       for(int i=0;i<pesosBase.length;i++){
+//           sumatoria+=pesosBase[i]*pesosBase[i];
+//       }
+//       return sumatoria;
+//   }
 }
 
 /*

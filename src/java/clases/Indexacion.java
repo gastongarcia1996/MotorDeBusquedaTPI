@@ -75,7 +75,7 @@ public class Indexacion implements Serializable
 
             if (lista == null) 
             {
-                File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
+                File archivo = new File("C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\DocumentosTPI");
                 lista = archivo.listFiles();
             }
 
@@ -278,7 +278,7 @@ public class Indexacion implements Serializable
         try 
         {
             db = Datos.getSingleDB();
-            File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
+            File archivo = new File("C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\DocumentosTPI");
             File[] lista = archivo.listFiles();
 
             //ciclo for que recorre la lista de documentos

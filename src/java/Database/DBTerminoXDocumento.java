@@ -221,34 +221,4 @@ public abstract class DBTerminoXDocumento
         
         return 0;
     }
-//    public static int contarDocConTermino(DBManager db, String word) {
-//        String query = "SELECT count(id_doc) FROM terminoxdocumento WHERE palabra = '"+word+"';";
-//        ResultSet rs = null;
-//        
-//        try
-//        {
-//            if(db != null)
-//            {
-//                rs = db.executeQuery(query);
-//            }
-//            else
-//            {
-//                db = Datos.getSingleDB();
-//                rs = db.executeQuery(query);
-//            }
-//            rs.next();
-//            return rs.getInt(1);
-//        }
-//        catch(Exception e)
-//        {
-//            System.out.println(e.getMessage());
-//        }
-//        
-//       
-//        return 0;
-//    
-//    }
-
-    
-
 }
