@@ -37,14 +37,13 @@ public class CtrlDocumentoAdd extends HttpServlet {
             throws ServletException, IOException 
     {
         
-        String titulo = "No se pudo crear el documento";
+        String titulo = "Index";
         ErrorMsg errorMsg = null;
         String dest = "/index.jsp";
         
         try
         {
-            Documento doc = new Documento();
-            request.setAttribute("documento", doc);
+            
         }
         catch(Exception e)
         {

@@ -23,7 +23,7 @@ public class Hilo1 extends Thread
     {
         try
         {
-            v.armar_posteo(0, v.getLista().length / 2);
+            v.armar_posteo();
         }
         catch(Exception e)
         {

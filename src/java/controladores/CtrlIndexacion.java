@@ -7,6 +7,7 @@ package controladores;
 
 import Database.DBManager;
 import clases.Datos;
+import clases.Helper;
 import clases.Indexacion;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -40,15 +41,14 @@ public class CtrlIndexacion extends HttpServlet {
             throws ServletException, IOException 
     {
         ErrorMsg errorMsg = null;
-        String errorTitle = "No se pudo cargar los alumnos";
+        String errorTitle = "Arreglar ctrlIndexacion";
         String dest = "/error.jsp";
         
         try 
         {
-            DBManager db = Datos.getSingleDB();
-            
-            
-
+            dest="/index.jsp";
+            Helper.armarVocabulario();
+            Helper.armarPosteo();
         } 
         catch (Exception e) 
         {

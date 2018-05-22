@@ -7,6 +7,7 @@ package Database;
 
 import clases.Datos;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 
 /**
@@ -15,6 +16,8 @@ import java.sql.ResultSet;
  */
 public abstract class DBDocumento 
 {
+
+    
     private final String nombre_doc = "nombre_doc";
     private final String frec_termino = "frec_termino";
     
@@ -43,6 +46,39 @@ public abstract class DBDocumento
         
        
         return false;
+    }
+    
+    public static ArrayList<String> getDocsList() {
+        
+        String query = "SELECT nombre FROM documentos";
+        ResultSet rs = null;
+        ArrayList<String> list=new ArrayList<>();
+        
+        try
+        {
+            DBManager db=Datos.getSingleDB();
+            if(db != null)
+            {
+                rs = db.executeQuery(query);
+            }
+            else
+            {
+                db = Datos.getSingleDB();
+                rs = db.executeQuery(query);
+            }
+            
+            while(rs.next()){
+                String aux=rs.getString(1);
+                list.add(aux);
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
+       
+        return list;
     }
     
     

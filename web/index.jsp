@@ -63,7 +63,8 @@
                         <c:forEach items="${documentos}" var="documento">
                             <tr>
                                 <td>${documento.id_doc}</td>
-                                <td><a name="documento" href="<c:url value="/documento"/>" target="_blank">${documento.nombre_doc}</a></td>  
+                                
+                                <td><a name="documento" href="<c:url value="/documento?namedoc=${documento.nombre_doc}"/>" target="_blank">${documento.nombre_doc}</a></td>  <%-- <c:url value="/documento"/>--%>
                                 <td>${documento.peso}</td>
                             </tr>
                         </c:forEach>

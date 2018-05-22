@@ -41,9 +41,9 @@ public class Helper {
         
         
         
-        public static boolean indexar(){
+        public static boolean armarPosteo(){
             try {
-                index.armar_posteo(0, 0);
+                index.armar_posteo();
                 return true;
             } catch (Exception ex) {
                 Logger.getLogger(Helper.class.getName()).log(Level.SEVERE, null, ex);

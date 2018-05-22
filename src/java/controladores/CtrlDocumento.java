@@ -5,7 +5,10 @@
  */
 package controladores;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -41,6 +44,12 @@ public class CtrlDocumento extends HttpServlet {
         try
         {
             //File f = new File(request.getParameter("documento"));
+            String att=request.getQueryString();
+            int ind=att.indexOf("=");
+            att=att.substring(ind+1);
+            String docPath="C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\DocumentosTPI\\"+att;
+            //String documentoString=translateDoc(docPath);
+            request.setAttribute("docPath", docPath);
             dest = "/documento.jsp";
         }
         catch (Exception e)
@@ -54,6 +63,18 @@ public class CtrlDocumento extends HttpServlet {
         disp.forward(request, response);
     }
 
+    private String translateDoc(String path) throws FileNotFoundException, IOException{
+        File file=new File(path);
+        String aux="", text="";
+        FileReader fr = new FileReader(file);
+        BufferedReader br = new BufferedReader(fr);
+        while ((aux = br.readLine()) != null)
+                {
+                    text+=aux+"\n";
+                }
+
+        return text;
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
