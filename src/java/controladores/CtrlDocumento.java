@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Scanner;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -48,8 +49,11 @@ public class CtrlDocumento extends HttpServlet {
             int ind=att.indexOf("=");
             att=att.substring(ind+1);
             String docPath="C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\DocumentosTPI\\"+att;
-            //String documentoString=translateDoc(docPath);
+            String documentString=translateDoc(docPath);
+            
+            request.setAttribute("docName", att);
             request.setAttribute("docPath", docPath);
+            request.setAttribute("documentString", documentString);
             dest = "/documento.jsp";
         }
         catch (Exception e)
@@ -66,10 +70,12 @@ public class CtrlDocumento extends HttpServlet {
     private String translateDoc(String path) throws FileNotFoundException, IOException{
         File file=new File(path);
         String aux="", text="";
-        FileReader fr = new FileReader(file);
-        BufferedReader br = new BufferedReader(fr);
-        while ((aux = br.readLine()) != null)
+//        FileReader fr = new FileReader(file);
+//        BufferedReader br = new BufferedReader(fr);
+        Scanner sc= new Scanner(file);
+        while (sc.hasNext())
                 {
+                    aux = sc.nextLine();
                     text+=aux+"\n";
                 }
 
