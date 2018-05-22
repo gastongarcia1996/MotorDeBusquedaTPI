@@ -49,6 +49,7 @@ public class CtrlIndexacion extends HttpServlet {
             dest="/index.jsp";
             Helper.armarVocabulario();
             Helper.armarPosteo();
+            CtrlBusqueda.setIndexado(true);
         } 
         catch (Exception e) 
         {
