@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  * @author Nico
  */
 public class Helper {
-        public static Indexacion index;
+        public static Indexacion index =new Indexacion();
         public static boolean indexado=false;
         public Hashtable<String,Termino> ht;
         
