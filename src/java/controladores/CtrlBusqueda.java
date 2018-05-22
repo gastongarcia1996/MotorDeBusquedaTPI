@@ -39,12 +39,18 @@ public class CtrlBusqueda extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     static Indexacion index=Helper.index;
-    static Hashtable<String, Termino> ht = Helper.getHt();
+    static Hashtable<String, Termino> ht;
+    private static boolean indexado=false;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException 
     {
-        
+        if(!indexado){
+            Helper.armarVocabulario();
+            indexado=true;
+        }
+        index=Helper.index;
+        ht = Helper.getHt();
         String titulo = "Error";
         String dest = "/error.jsp";
         ErrorMsg errorMsg = null;
@@ -61,7 +67,7 @@ public class CtrlBusqueda extends HttpServlet {
             consulta = consulta.toLowerCase();
             cant_doc = index.getDocumentosList().size();
             List documentos = c.ordenarPorRelevancia(consulta, index.getHt(), 25, cant_doc);
-            request.setAttribute("consulted", consulta);
+            request.setAttribute("consulted", consulta); //Devuelve la consulta buscada
             request.setAttribute("documentos", documentos); 
             dest = "/index.jsp";
         }
@@ -75,6 +81,10 @@ public class CtrlBusqueda extends HttpServlet {
         RequestDispatcher disp = app.getRequestDispatcher(dest);
         disp.forward(request, response);
         
+    }
+    
+    public static void resetIndexado(){
+        indexado=false;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

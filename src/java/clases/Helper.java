@@ -15,19 +15,19 @@ import java.util.logging.Logger;
  */
 public class Helper {
         public static Indexacion index =new Indexacion();
-        public static boolean indexado=false;
+//        public static boolean indexado=false;
         public Hashtable<String,Termino> ht;
         
         
         public static void armarVocabulario(){
-            if(!indexado){
+            
                 index.armar_vocabulario();
-            }
+            
         }
         
-        public static void resetIndexado(){
-            indexado=false;
-        }
+//        public static void resetIndexado(){
+//            indexado=false;
+//        }
         
         public static int getCantDocumentos(){
             int aux=0;
