@@ -60,7 +60,8 @@ public class CtrlBusqueda extends HttpServlet {
             String consulta = request.getParameter("consulta");
             consulta = consulta.toLowerCase();
             cant_doc = index.getDocumentosList().size();
-            List documentos = c.ordenarPorRelevancia(consulta, index.getHt(), 3, cant_doc);
+            List documentos = c.ordenarPorRelevancia(consulta, index.getHt(), 25, cant_doc);
+            request.setAttribute("consulted", consulta);
             request.setAttribute("documentos", documentos); 
             dest = "/index.jsp";
         }
