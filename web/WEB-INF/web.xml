@@ -8,10 +8,6 @@
         <servlet-name>CtrlIndexacion</servlet-name>
         <servlet-class>controladores.CtrlIndexacion</servlet-class>
     </servlet>
-<!--    <servlet>
-        <servlet-name>CtrlIndex</servlet-name>
-        <servlet-class>controladores.CtrlIndex</servlet-class>
-    </servlet>  -->
     <servlet>
         <servlet-name>CtrlBusqueda</servlet-name>
         <servlet-class>controladores.CtrlBusqueda</servlet-class>
@@ -36,11 +32,6 @@
         <servlet-name>CtrlDocumento</servlet-name>
         <url-pattern>/documento</url-pattern>
     </servlet-mapping>
-<!--    <servlet-mapping>
-        <servlet-name>CtrlIndex</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>-->
-
     <session-config>
         <session-timeout>
             30
