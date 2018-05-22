@@ -11,9 +11,8 @@
         <title>Motor de Busqueda</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-
-        
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
 
         <!--<link href="fonts/fontawesome-all.css" rel="stylesheet"> -->   
         <script defer src="fonts/js/fontawesome-all.js"></script>
@@ -53,7 +52,7 @@
         <br />
         <div class="row" style="position: relative; left: 1em;">
             <div class="col-md-6" id="div_carga">
-
+                <h5>${consulted}</h5>
                 <table class="table table-hover table-bordered">
                     <thead>
                     <th><h4>Id</h4></th>
