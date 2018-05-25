@@ -31,27 +31,31 @@ import javax.swing.JOptionPane;
  *
  * @author dlcusr
  */
-public class Indexacion implements Serializable {
+public class Indexacion implements Serializable
+{
 
     private Hashtable<String, Termino> ht = new Hashtable<>();
     private LinkedList<Documento> al = new LinkedList<>();
     private LinkedList<Termino> ll = new LinkedList<>();
+    private LinkedList<String> nuevos = new LinkedList<>();
     private int cantidad = 0;
-    private StringTokenizer st = null;
     private File[] lista = null;
     DBManager db = null;
 
-    public Indexacion() {
+    public Indexacion()
+    {
     }
 
-    public Indexacion(File[] lista) {
+    public Indexacion(File[] lista)
+    {
         this.lista = lista;
     }
 
     /**
      * Arma el vocabulario del motor;
      */
-    public void armar_vocabulario() {
+    public void armar_vocabulario()
+    {
         Termino t1 = null;
         String aux = "";
         String clave = "";
@@ -61,27 +65,34 @@ public class Indexacion implements Serializable {
         BufferedReader br = null;
         Enumeration enumeration = null;
         Hashtable<String, Termino> hashAux = new Hashtable<>();
+        StringTokenizer st = null;
 
-        try {
+        try
+        {
 
             //db = Datos.getSingleDB();
             String s = "";
             //File archivo = new File("/home/dlcusr/NetBeansProjects/MotorDeBusquedaTPI/DocumentosTPI");
 
-            if (lista == null) {
-                File archivo = new File("C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\DocumentosTPI");
+            if (lista == null)
+            {
+                File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
                 lista = archivo.listFiles();
             }
 
             //ciclo for que recorre la lista de documentos
-            for (int i = 0; i < lista.length; i++) {
+            for (int i = 0; i < lista.length; i++)
+            {
                 al.add(new Documento(i, lista[i].getName()));
 
-                if (validarDocumento(db, lista[i])) {
+                if (validarDocumento(db, lista[i]))
+                {
                     fr = new FileReader(lista[i]);
                     br = new BufferedReader(fr);
                     hashAux = new Hashtable<>();
-                } else {
+                }
+                else
+                {
                     continue;
                 }
 
@@ -91,18 +102,21 @@ public class Indexacion implements Serializable {
 //                }
                 //DBDocumento.insertarDocumento(db, lista[i].getName());
                 //ciclo que toma cada linea del documento
-                while ((s = br.readLine()) != null) {
+                while ((s = br.readLine()) != null)
+                {
 
                     st = new StringTokenizer(s, " ~¼±|\"°!#$%&/()=?¡^¶[]¿-\\/_*³.,«»;:<>+æ’");
 
                     //ciclo que recorre las palabras y las agrega a una tabla hash
                     //evitando que no se repitan
-                    while (st.hasMoreTokens()) {
+                    while (st.hasMoreTokens())
+                    {
                         aux = st.nextToken().toLowerCase();
 
                         //aux = aux.replace("'", "''");
                         //si el termino no esta en la hashtable
-                        if (!ht.containsKey(aux)) {
+                        if (!ht.containsKey(aux))
+                        {
                             t1 = new Termino(aux);
                             hashAux.put(aux, t1);
 
@@ -115,7 +129,9 @@ public class Indexacion implements Serializable {
                              */
                             //aux = aux.replace("''", "'");
                             ht.put(aux, t1);
-                        } else if (!hashAux.containsKey(aux)) {
+                        }
+                        else if (!hashAux.containsKey(aux))
+                        {
                             hashAux.put(aux, ht.get(aux));
                         }
 
@@ -125,7 +141,8 @@ public class Indexacion implements Serializable {
                 br.close();
 
                 enumeration = hashAux.keys();
-                while (enumeration.hasMoreElements()) {
+                while (enumeration.hasMoreElements())
+                {
                     clave = (String) enumeration.nextElement();
                     hashAux.get(clave).setCant_doc_aparece(hashAux.get(clave).getCant_doc_aparece() + 1);
                 }
@@ -133,7 +150,9 @@ public class Indexacion implements Serializable {
             }
             //db.disconnect();
             //guardar_hashtable();          
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             System.out.println("Error al leer el archivo " + ex.getMessage());
         }
     }
@@ -165,7 +184,8 @@ public class Indexacion implements Serializable {
     }
      */
     //public void armar_posteo(int desde, int hasta) throws Exception 
-    public void armar_posteo() throws Exception {
+    public void armar_posteo() throws Exception
+    {
         String palabra = "";
         int cont = 0;
         int id_doc = 0;
@@ -174,10 +194,15 @@ public class Indexacion implements Serializable {
         FileReader fr = null;
         BufferedReader br = null;
         db = Datos.getSingleDB();
-        ArrayList<String> docs = DBDocumento.getDocsList();
+        ArrayList<String> arrayListAux = DBTermino.selectTerminos(db);
+        Hashtable<String, Termino> aux2 = new Hashtable<>();
+        StringTokenizer st = null;
+        //ArrayList<String> docs = DBDocumento.getDocsList();
 
-        for (int i = 0; i < cantDocs(); i++)//Sacar el 10
+        for (int i = 0; i < nuevos.size(); i++)//Sacar el 10
         {
+            int idDoc = DBDocumento.selectDocumentoId(db, nuevos.get(i));
+            /*
             if (!(docs.contains(lista[i].getName()))) {
                 //JOptionPane.showMessageDialog(null, "Entro al Posteo por: "+lista[i].getName());
                 
@@ -188,31 +213,40 @@ public class Indexacion implements Serializable {
                        br = new BufferedReader(fr);              
                  }
                 else continue;
-//                fr = new FileReader(lista[i]);
-//                br = new BufferedReader(fr);
+             */
+            fr = new FileReader(new File(nuevos.get(i)));
+            br = new BufferedReader(fr);
 
-                while ((palabra = br.readLine()) != null) {
-                    st = new StringTokenizer(palabra, " ~¼±|\"°!#$%&/()=?¡^¶[]¿-\\/_*³.,«»;:<>+æ’");
+            while ((palabra = br.readLine()) != null)
+            {
+                st = new StringTokenizer(palabra, " ~¼±|\"°!#$%&/()=?¡^¶[]¿-\\/_*³.,«»;:<>+æ’");
 
-                    while (st.hasMoreTokens()) {
-                        palabra = st.nextToken().toLowerCase();
-                        if (ht.containsKey(palabra)) {
-                            aux = ht.get(palabra);
-                            aux.setFrec_aparicion(aux.getFrec_aparicion() + 1);
+                while (st.hasMoreTokens())
+                {
+                    palabra = st.nextToken().toLowerCase();
+                    if (ht.containsKey(palabra))
+                    {
+                        aux = ht.get(palabra);
+                        aux.setFrec_aparicion(aux.getFrec_aparicion() + 1);
 
-                            if (!hashAux.containsKey(palabra)) {
-                                palabra = palabra.replace("'", "''");
-                                hashAux.put(palabra, aux);
-                            }
+//                            if (!hashAux.containsKey(palabra)) 
+//                            {
+//                                palabra = palabra.replace("'", "''");
+//                                hashAux.put(palabra, aux);
+//                            }
+                        if (!arrayListAux.contains(palabra))
+                        {
+                            DBTermino.insertarTermino(db, palabra);
+                            aux2.put(palabra, aux);
                         }
-
                     }
                 }
-                //Recorrido de la hashAux
-                insertarABasePosteo(hashAux, i + 1);
-                hashAux = new Hashtable<>();
             }
+            //Recorrido de la hashAux
+            insertarABasePosteo(aux2, idDoc);
+            hashAux = new Hashtable<>();
         }
+
         db.disconnect();
     }
 
@@ -223,22 +257,30 @@ public class Indexacion implements Serializable {
      * @param f El archivo a validar
      * @return true sale todo bien, false en caso contrario
      */
-    private boolean validarDocumento(DBManager db, File f) {
-        if (es_txt(f)) {
-            if (!DBDocumento.existeDocumento(db, f.getName())) {
+    private boolean validarDocumento(DBManager db, File f)
+    {
+        if (es_txt(f))
+        {
+            if (!DBDocumento.existeDocumento(db, f.getName()))
+            {
                 DBDocumento.insertarDocumento(db, f.getName());
+                this.nuevos.add(f.getName());
             }
-        } else {
+        }
+        else
+        {
             return false;
         }
 
         return true;
     }
 
-    private void insertarABasePosteo(Hashtable<String, Termino> ht, int id_doc) {
+    private void insertarABasePosteo(Hashtable<String, Termino> ht, int id_doc)
+    {
         Enumeration e = ht.keys();
         String clave;
-        while (e.hasMoreElements()) {
+        while (e.hasMoreElements())
+        {
             clave = (String) e.nextElement();
             DBTerminoXDocumento.insertarTerminoXDocumento(db, clave, id_doc, ht.get(clave).getFrec_aparicion());
             clave = clave.replace("''", "'");
@@ -246,41 +288,56 @@ public class Indexacion implements Serializable {
         }
     }
 
-    public File[] getLista() {
+    public File[] getLista()
+    {
         return lista;
     }
 
-    public void obtenerDocumentos() {
-        try {
+    public void obtenerDocumentos()
+    {
+        try
+        {
             db = Datos.getSingleDB();
             File archivo = new File("C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\DocumentosTPI");
             File[] lista = archivo.listFiles();
 
             //ciclo for que recorre la lista de documentos
-            for (int i = 0; i < lista.length; i++) {
+            for (int i = 0; i < lista.length; i++)
+            {
                 //sl.add(new Documento(i, lista[i].getName()));
                 DBDocumento.insertarDocumento(db, lista[i].getName());
             }
             db.disconnect();
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println(e.getMessage());
         }
 
     }
 
-    public LinkedList<Documento> getDocumentosList() {
+    public LinkedList<Documento> getDocumentosList()
+    {
         return al;
     }
+    
+    public void setDocumentosList(LinkedList<Documento> al)
+    {
+        this.al = al;
+    }
 
-    public int cantDocs() {
+    public int cantDocs()
+    {
         return lista.length;
     }
 
-    public Hashtable<String, Termino> getHt() {
+    public Hashtable<String, Termino> getHt()
+    {
         return ht;
     }
 
-    public void setHt(Hashtable<String, Termino> ht) {
+    public void setHt(Hashtable<String, Termino> ht)
+    {
         this.ht = ht;
     }
 
@@ -290,51 +347,68 @@ public class Indexacion implements Serializable {
      * @param f: el archivo a validar
      * @return true si es un archivo txt y false en caso contrario
      */
-    private boolean es_txt(File f) {
+    private boolean es_txt(File f)
+    {
         return f.getName().endsWith(".txt") || f.getName().endsWith(".TXT");
     }
 
-    public void setLista(File[] lista) {
+    public void setLista(File[] lista)
+    {
         this.lista = lista;
     }
 
-    public Hashtable<String, Termino> crearHash() {
+    public Hashtable<String, Termino> crearHash()
+    {
         Hashtable<String, Termino> tablaTerminos = new Hashtable<>();
-        try {
+        try
+        {
             db = Datos.getSingleDB();
 
             int cantTerminos = DBTermino.countTerminos(db);
             ArrayList<String> terminos = DBTermino.selectTerminos(db);
-            for (int i = 0; i < cantTerminos; i++) {
+            for (int i = 0; i < cantTerminos; i++)
+            {
                 String word = terminos.get(i);
                 int frecMax = DBTerminoXDocumento.frecuenciaMaxTermino(db, word);
                 int cantApar = DBTerminoXDocumento.contarDocConTermino(db, word);
                 Termino term = new Termino(word, cantApar, frecMax);
                 tablaTerminos.put(word, term);
             }
-
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             System.out.println("Error: " + ex.getMessage());
         }
         return tablaTerminos;
     }
 
-    public void guardar_hashtable() throws IOException {
-        File f = new File("Hashtable");
+    public void guardar_hashtable() throws IOException
+    {
+        File f = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\Hashtable");
         FileOutputStream fos = new FileOutputStream(f);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
 
         //oos.writeObject(crearHash());
+        oos.writeObject(al);
         oos.writeObject(ht);
+        oos.close();
     }
 
-    private Hashtable leer_hashtable() throws IOException, ClassNotFoundException {
-        File f = new File("Hashtable");
-        if (f.exists() && f.isFile()) {
-            FileInputStream fis = new FileInputStream("Hashtable");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            return (Hashtable) ois.readObject();
-        }
-        return null;
+    public void leer_hashtable() throws IOException, ClassNotFoundException
+    {
+        File f = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\Hashtable");
+
+        FileInputStream fis = new FileInputStream(f);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        al = (LinkedList) ois.readObject();
+        ht = (Hashtable) ois.readObject();
+        ois.close();
+    }
+
+    public boolean existe_hashtable(String archivo)
+    {
+        File f = new File(archivo);
+
+        return (f.exists() && f.isFile());
     }
 }

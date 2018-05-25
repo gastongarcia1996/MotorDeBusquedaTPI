@@ -5,11 +5,13 @@
  */
 package clases;
 
+import java.io.Serializable;
+
 /**
  *
  * @author dlcusr
  */
-public class Documento
+public class Documento implements Serializable
 {
     private int id_doc = 0;
     private String nombre_doc;

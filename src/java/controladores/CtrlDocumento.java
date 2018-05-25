@@ -48,7 +48,7 @@ public class CtrlDocumento extends HttpServlet {
             String att=request.getQueryString();
             int ind=att.indexOf("=");
             att=att.substring(ind+1);
-            String docPath="C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\DocumentosTPI\\"+att;
+            String docPath="C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI\\"+att;
             String documentString=translateDoc(docPath);
             
             request.setAttribute("docName", att);

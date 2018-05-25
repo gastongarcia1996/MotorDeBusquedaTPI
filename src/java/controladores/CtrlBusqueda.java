@@ -27,7 +27,8 @@ import web.ErrorMsg;
  *
  * @author Gaston
  */
-public class CtrlBusqueda extends HttpServlet {
+public class CtrlBusqueda extends HttpServlet
+{
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,28 +39,44 @@ public class CtrlBusqueda extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    static Indexacion index=Helper.index;
+    static Indexacion index = Helper.index;
     static Hashtable<String, Termino> ht;
-    private static boolean indexado=false;
+    private static boolean indexado = false;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException 
+            throws ServletException, IOException
     {
-        if(!indexado){
-            Helper.armarVocabulario();
-            indexado=true;
+        if (!indexado)
+        {
+            if (Helper.existe_indexacion("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\Indexacion"))
+            {
+                try
+                {
+                    Helper.leer_indexacion();
+                    ht = index.getHt();
+                }
+                catch(Exception ex)
+                {
+                    System.out.println("Error");
+                }
+                
+            }
+            else
+            {
+                Helper.armarVocabulario();            
+                ht = Helper.getHt();
+                Helper.guardar_indexacion();
+            }          
         }
-        index=Helper.index;
-        ht = Helper.getHt();
+        indexado = true;
         String titulo = "Error";
         String dest = "/error.jsp";
         ErrorMsg errorMsg = null;
-        
+
         LinkedList<Documento> listDoc = new LinkedList();
 
-        
         int cant_doc = 0;
-        
+
         try
         {
             Consulta c = new Consulta();
@@ -68,7 +85,7 @@ public class CtrlBusqueda extends HttpServlet {
             cant_doc = index.getDocumentosList().size();
             List documentos = c.ordenarPorRelevancia(consulta, index.getHt(), 25, cant_doc);
             request.setAttribute("consulted", consulta); //Devuelve la consulta buscada
-            request.setAttribute("documentos", documentos); 
+            request.setAttribute("documentos", documentos);
             dest = "/index.jsp";
         }
         catch (Exception e)
@@ -76,15 +93,16 @@ public class CtrlBusqueda extends HttpServlet {
             errorMsg = new ErrorMsg(e.getMessage(), e.getMessage());
             request.setAttribute("errorMsg", errorMsg);
         }
-        
+
         ServletContext app = this.getServletContext();
         RequestDispatcher disp = app.getRequestDispatcher(dest);
         disp.forward(request, response);
-        
+
     }
-    
-    public static void setIndexado(boolean b){
-        indexado=b;
+
+    public static void setIndexado(boolean b)
+    {
+        indexado = b;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -98,7 +116,8 @@ public class CtrlBusqueda extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         processRequest(request, response);
     }
 
@@ -112,7 +131,8 @@ public class CtrlBusqueda extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         processRequest(request, response);
     }
 
@@ -122,7 +142,8 @@ public class CtrlBusqueda extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
 
