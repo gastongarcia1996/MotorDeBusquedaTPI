@@ -157,7 +157,8 @@ public class Termino implements Comparable<Termino>, Serializable
     @Override
     public String toString()
     {
-       return "\n\tPalabra: " + palabra + "\tcantidad de documentos: " + cant_doc_aparece + "\tdoca: " + al.toString();
+       return "\n\tPalabra: " + palabra + "\tcantidad de documentos: " + cant_doc_aparece + "\tfrec aparicion: " + frec_aparicion +
+               "\tmax frec aparicion: " + max_frec_aparicion;
     }
 
     /**
