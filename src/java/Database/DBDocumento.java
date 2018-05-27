@@ -107,7 +107,7 @@ public abstract class DBDocumento
     
     public static int selectDocumentoId(DBManager db, String nombre)
     {
-        String query = "SELECT id_doc FROM documentos WHERE nombre = '" + nombre + "'";
+        String query = "SELECT id FROM documentos WHERE nombre = '" + nombre + "';";
         ResultSet rs = null;
         
         try

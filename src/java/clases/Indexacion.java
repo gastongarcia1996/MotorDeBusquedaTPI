@@ -186,6 +186,7 @@ public class Indexacion implements Serializable
     //public void armar_posteo(int desde, int hasta) throws Exception 
     public void armar_posteo() throws Exception
     {
+        nuevos.add("zzzzzz.txt");
         String palabra = "";
         int cont = 0;
         int id_doc = 0;
@@ -214,7 +215,7 @@ public class Indexacion implements Serializable
                  }
                 else continue;
              */
-            fr = new FileReader(new File(doc));
+            fr = new FileReader(new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI\\" + doc));
             br = new BufferedReader(fr);
 
             while ((palabra = br.readLine()) != null)

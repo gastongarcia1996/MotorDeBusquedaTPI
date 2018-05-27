@@ -52,20 +52,9 @@ public class main {
 //        v.armar_vocabulario();
         
         System.out.println("Armando vocabulario...");        
-        try
-        {
-            Helper.leer_indexacion();
-            //System.out.println(Helper.getHt());
-            System.out.println(Helper.getCantDocumentos());
-        }
-        catch (IOException ex)
-        {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (ClassNotFoundException ex)
-        {
-            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Helper.armarVocabulario();
+        //System.out.println(Helper.getHt());
+        Helper.armarPosteo();
         
     }
 }
