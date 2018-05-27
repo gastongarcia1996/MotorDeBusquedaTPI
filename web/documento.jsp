@@ -34,7 +34,7 @@
             </div>
         </div>
         <!--<p>$ {documentoString}</p>-->
-        <a href="index.jsp">Volver Atras</a>
+        <a class="btn btn-primary" href="<c:url value="/" />">Volver Atras</a>
         <!--        <script type="text/javascript">
                     function autoResize(id)
                     {

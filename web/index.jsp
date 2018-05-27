@@ -64,7 +64,7 @@
                             <tr>
                                 <td>${documento.id_doc}</td>
                                 
-                                <td><a name="documento" href="<c:url value="/documento?namedoc=${documento.nombre_doc}"/>" target="_blank">${documento.nombre_doc}</a></td>  <%-- <c:url value="/documento"/>--%>
+                                <td><a name="documento" href="<c:url value="/documento?namedoc=${documento.nombre_doc}"/>">${documento.nombre_doc}</a></td>  <%-- <c:url value="/documento"/>--%>
                                 <td>${documento.peso}</td>
                             </tr>
                         </c:forEach>

@@ -15,6 +15,8 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  *
@@ -26,6 +28,7 @@ public class Consulta
     
     public LinkedList<Documento> ordenarPorRelevancia(String consulta, Hashtable<String, Termino> ht, int r, int totalDocs) throws Exception
     {
+        BigDecimal bd = null;
         LinkedList<String> listAux = procesar_consulta(consulta, ht, r); //lista de documentos de la consulta
         LinkedList<Documento> docs = new LinkedList<>(); //lista a retornar de documentos ordenados por relevancia
         LinkedList<Documento>listRet = new LinkedList<>();
@@ -48,10 +51,12 @@ public class Consulta
         for (String term : aux)
         {
             for (Documento d : docs)
-            {
+            {               
                 tf = DBTerminoXDocumento.countFrecXDocumento(db, term.replace("'", "''"), d.getNombre_doc());
                 idf = Math.log(totalDocs / ht.get(term.replace("''", "'")).getCant_doc_aparece());
-                peso = (double)(tf * idf);
+                bd = new BigDecimal(tf * idf);
+                bd = bd.setScale(2, RoundingMode.HALF_UP);
+                peso = bd.doubleValue();
                 d.setPeso(d.getPeso() + peso);
             }
         }

@@ -46,7 +46,7 @@ public class CtrlBusqueda extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        if (!indexado)
+        if (!Helper.indexado)
         {
             if (Helper.existe_indexacion("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\Indexacion"))
             {
@@ -68,7 +68,7 @@ public class CtrlBusqueda extends HttpServlet
                 Helper.guardar_indexacion();
             }          
         }
-        indexado = true;
+        Helper.indexado = true;
         String titulo = "Error";
         String dest = "/error.jsp";
         ErrorMsg errorMsg = null;

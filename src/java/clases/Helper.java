@@ -24,7 +24,8 @@ public class Helper
 {
 
     public static Indexacion index = new Indexacion();
-//        public static boolean indexado=false;
+    public static boolean indexado = false;
+    
     public Hashtable<String, Termino> ht;
 
     public static void armarVocabulario()
@@ -62,7 +63,7 @@ public class Helper
         }
         return false;
     }
-    
+
     public static void guardar_indexacion() throws IOException
     {
         File f = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\Indexacion");
@@ -92,4 +93,3 @@ public class Helper
         return (f.exists() && f.isFile());
     }
 }
-
