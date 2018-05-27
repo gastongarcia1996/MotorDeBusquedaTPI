@@ -52,7 +52,7 @@
         <br />
         <div class="row" style="position: relative; left: 1em;">
             <div class="col-md-6" id="div_carga">
-                <h3>Resultados de la busqueda de :''${consulted}'':</h3>
+                <h3>Resultados de la busqueda de :''${consulta}'':</h3>
                 <table class="table table-hover table-bordered">
                     <thead>
                     <th><h4>Id</h4></th>
