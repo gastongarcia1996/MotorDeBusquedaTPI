@@ -199,9 +199,9 @@ public class Indexacion implements Serializable
         StringTokenizer st = null;
         //ArrayList<String> docs = DBDocumento.getDocsList();
 
-        for (int i = 0; i < nuevos.size(); i++)//Sacar el 10
+        for (String doc : nuevos)//Sacar el 10
         {
-            int idDoc = DBDocumento.selectDocumentoId(db, nuevos.get(i));
+            int idDoc = DBDocumento.selectDocumentoId(db, doc);
             /*
             if (!(docs.contains(lista[i].getName()))) {
                 //JOptionPane.showMessageDialog(null, "Entro al Posteo por: "+lista[i].getName());
@@ -214,7 +214,7 @@ public class Indexacion implements Serializable
                  }
                 else continue;
              */
-            fr = new FileReader(new File(nuevos.get(i)));
+            fr = new FileReader(new File(doc));
             br = new BufferedReader(fr);
 
             while ((palabra = br.readLine()) != null)
@@ -236,9 +236,10 @@ public class Indexacion implements Serializable
 //                            }
                         if (!arrayListAux.contains(palabra))
                         {
-                            DBTermino.insertarTermino(db, palabra);
-                            aux2.put(palabra, aux);
+                            DBTermino.insertarTermino(db, palabra);                           
                         }
+                        
+                        if (!aux2.containsKey(palabra)) aux2.put(palabra, aux);
                     }
                 }
             }

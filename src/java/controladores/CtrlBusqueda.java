@@ -53,7 +53,7 @@ public class CtrlBusqueda extends HttpServlet
                 try
                 {
                     Helper.leer_indexacion();
-                    ht = index.getHt();
+                    ht = Helper.getHt();
                 }
                 catch(Exception ex)
                 {
@@ -82,9 +82,9 @@ public class CtrlBusqueda extends HttpServlet
             Consulta c = new Consulta();
             String consulta = request.getParameter("consulta");
             consulta = consulta.toLowerCase();
-            cant_doc = index.getDocumentosList().size();
-            List documentos = c.ordenarPorRelevancia(consulta, index.getHt(), 25, cant_doc);
-            request.setAttribute("consulted", consulta); //Devuelve la consulta buscada
+            cant_doc = Helper.getCantDocumentos();
+            List documentos = c.ordenarPorRelevancia(consulta, ht, 25, cant_doc);
+            request.setAttribute("consulta", consulta); //Devuelve la consulta buscada
             request.setAttribute("documentos", documentos);
             dest = "/index.jsp";
         }
