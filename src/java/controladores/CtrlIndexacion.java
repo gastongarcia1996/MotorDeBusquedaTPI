@@ -26,7 +26,8 @@ import web.ErrorMsg;
  *
  * @author dlcusr
  */
-public class CtrlIndexacion extends HttpServlet {
+public class CtrlIndexacion extends HttpServlet
+{
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,25 +39,26 @@ public class CtrlIndexacion extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException 
+            throws ServletException, IOException
     {
         ErrorMsg errorMsg = null;
         String errorTitle = "Arreglar ctrlIndexacion";
         String dest = "/error.jsp";
-        
-        try 
+
+        try
         {
-            dest="/index.jsp";
+            dest = "/index.jsp";
             Helper.armarVocabulario();
+            Helper.guardar_indexacion();
             Helper.armarPosteo();
-            CtrlBusqueda.setIndexado(true);
-        } 
-        catch (Exception e) 
+            Helper.indexado = true;
+        }
+        catch (Exception e)
         {
             errorMsg = new ErrorMsg(errorTitle, e.getMessage());
             request.setAttribute("errorMsg", errorMsg);
         }
-        
+
         ServletContext app = this.getServletContext();
         RequestDispatcher disp = app.getRequestDispatcher(dest);
         disp.forward(request, response);
@@ -73,7 +75,8 @@ public class CtrlIndexacion extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         processRequest(request, response);
     }
 
@@ -87,7 +90,8 @@ public class CtrlIndexacion extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         processRequest(request, response);
     }
 
@@ -97,7 +101,8 @@ public class CtrlIndexacion extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
 

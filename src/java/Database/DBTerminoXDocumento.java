@@ -183,7 +183,7 @@ public abstract class DBTerminoXDocumento
                 rs = db.executeQuery(query);
             }
             
-            if(rs.next()) return rs;
+            return rs;
                             
         }
         catch(Exception e)

@@ -37,7 +37,7 @@ public class Indexacion implements Serializable
     private Hashtable<String, Termino> ht = new Hashtable<>();
     private LinkedList<Documento> al = new LinkedList<>();
     private LinkedList<Termino> ll = new LinkedList<>();
-    private LinkedList<String> nuevos = new LinkedList<>();
+    private LinkedList<String> nuevos = null;
     private int cantidad = 0;
     private File[] lista = null;
     DBManager db = null;
@@ -66,6 +66,7 @@ public class Indexacion implements Serializable
         Enumeration enumeration = null;
         Hashtable<String, Termino> hashAux = new Hashtable<>();
         StringTokenizer st = null;
+        nuevos = new LinkedList<>();
 
         try
         {
@@ -186,7 +187,6 @@ public class Indexacion implements Serializable
     //public void armar_posteo(int desde, int hasta) throws Exception 
     public void armar_posteo() throws Exception
     {
-        nuevos.add("zzzzzz.txt");
         String palabra = "";
         int cont = 0;
         int id_doc = 0;
@@ -202,7 +202,7 @@ public class Indexacion implements Serializable
 
         for (String doc : nuevos)//Sacar el 10
         {
-            int idDoc = DBDocumento.selectDocumentoId(db, doc);
+            id_doc = DBDocumento.selectDocumentoId(db, doc);
             /*
             if (!(docs.contains(lista[i].getName()))) {
                 //JOptionPane.showMessageDialog(null, "Entro al Posteo por: "+lista[i].getName());
@@ -245,10 +245,10 @@ public class Indexacion implements Serializable
                 }
             }
             //Recorrido de la hashAux
-            insertarABasePosteo(aux2, idDoc);
+            insertarABasePosteo(aux2, id_doc);
             hashAux = new Hashtable<>();
         }
-
+        nuevos = null;
         db.disconnect();
     }
 

@@ -102,9 +102,9 @@ public class Consulta
             
             
                 ResultSet rs = DBTerminoXDocumento.documentosxtermino(db, termino.getPalabra().replace("'", "''"), r);
-            
                 while(rs.next())
                 {    
+                    System.out.println(rs.getString(1));
                     if (!list.contains(rs.getString(1)))
                     {
                         list.add(rs.getString(1));

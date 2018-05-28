@@ -41,7 +41,6 @@ public class CtrlBusqueda extends HttpServlet
      */
     static Indexacion index = Helper.index;
     static Hashtable<String, Termino> ht;
-    private static boolean indexado = false;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
@@ -98,11 +97,6 @@ public class CtrlBusqueda extends HttpServlet
         RequestDispatcher disp = app.getRequestDispatcher(dest);
         disp.forward(request, response);
 
-    }
-
-    public static void setIndexado(boolean b)
-    {
-        indexado = b;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

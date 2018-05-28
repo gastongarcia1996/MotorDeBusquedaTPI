@@ -42,7 +42,7 @@
 
                 <div class="col-md-3">
                     <label><strong>Indexar los archivos:</strong></label>
-                    <a class="btn btn-danger" href="<c:url value="/indexacion"/>" target="_blank">
+                    <a class="btn btn-danger" href="<c:url value="/indexacion"/>">
                         <span aria-hidden="true"><i class="fas fa-arrow-alt-circle-up"></i></span>
                         Indexar
                     </a>

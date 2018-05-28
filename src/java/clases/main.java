@@ -53,8 +53,9 @@ public class main {
         
         System.out.println("Armando vocabulario...");        
         Helper.armarVocabulario();
-        //System.out.println(Helper.getHt());
         Helper.armarPosteo();
+        //System.out.println(Helper.getHt());
+        Consulta c = new Consulta();
         
     }
 }
