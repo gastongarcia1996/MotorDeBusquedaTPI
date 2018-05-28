@@ -23,14 +23,14 @@ import java.util.logging.Logger;
 public class Helper
 {
 
-    public static Indexacion index = new Indexacion();
+    public static Indexacion index = null;
     public static boolean indexado = false;
     
     public Hashtable<String, Termino> ht;
 
     public static void armarVocabulario()
     {
-
+        index = new Indexacion();
         index.armar_vocabulario();
 
     }
