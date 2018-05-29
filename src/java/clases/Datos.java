@@ -6,6 +6,7 @@
 package clases;
 
 import Database.DBManager;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author dlcusr
  */
-public abstract class Datos 
+public abstract class Datos implements Serializable
 {
     private static Hashtable documentos = new Hashtable();
     private static String DBUrl = "jdbc:postgresql://localhost:5432/Indexacion";

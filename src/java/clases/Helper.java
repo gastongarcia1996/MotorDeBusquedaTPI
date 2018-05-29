@@ -23,15 +23,17 @@ import java.util.logging.Logger;
 public class Helper
 {
 
-    public static Indexacion index = null;
+    public static Indexacion2 index = null;
     public static boolean indexado = false;
     
     public Hashtable<String, Termino> ht;
 
     public static void armarVocabulario()
     {
-        index = new Indexacion();
-        index.armar_vocabulario();
+        if (index==null){
+            index=new Indexacion2();
+        }
+        index.armar();
 
     }
 
@@ -66,7 +68,7 @@ public class Helper
 
     public static void guardar_indexacion() throws IOException
     {
-        File f = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\Indexacion");
+        File f = new File("C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\Indexacion");
         FileOutputStream fos = new FileOutputStream(f);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
 
@@ -77,12 +79,12 @@ public class Helper
 
     public static void leer_indexacion() throws IOException, ClassNotFoundException
     {
-        File f = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\Indexacion");
+        File f = new File("C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\Indexacion");
 
         FileInputStream fis = new FileInputStream(f);
         ObjectInputStream ois = new ObjectInputStream(fis);
 
-        index = (Indexacion) ois.readObject();
+        index = (Indexacion2) ois.readObject();
         ois.close();
     }
 

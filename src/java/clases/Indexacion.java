@@ -66,7 +66,7 @@ public class Indexacion implements Serializable
         Enumeration enumeration = null;
         Hashtable<String, Termino> hashAux = new Hashtable<>();
         StringTokenizer st = null;
-        nuevos = new LinkedList<>();
+        
 
         try
         {
@@ -77,7 +77,7 @@ public class Indexacion implements Serializable
 
             if (lista == null)
             {
-                File archivo = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI");
+                File archivo = new File("C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\DocumentosTPI");
                 lista = archivo.listFiles();
             }
 
@@ -156,6 +156,11 @@ public class Indexacion implements Serializable
         {
             System.out.println("Error al leer el archivo " + ex.getMessage());
         }
+        System.out.println("Terminó el vocabulario");
+        for (int i = 0; i < nuevos.size(); i++) {
+            
+            System.out.println("Nuevos doc nº: "+ i +" "+nuevos.get(i));
+        }
     }
 
     /*
@@ -215,7 +220,7 @@ public class Indexacion implements Serializable
                  }
                 else continue;
              */
-            fr = new FileReader(new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\DocumentosTPI\\" + doc));
+            fr = new FileReader(new File("C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\DocumentosTPI\\" + doc));
             br = new BufferedReader(fr);
 
             while ((palabra = br.readLine()) != null)
@@ -386,7 +391,7 @@ public class Indexacion implements Serializable
 
     public void guardar_hashtable() throws IOException
     {
-        File f = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\Hashtable");
+        File f = new File("C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\Hashtable");
         FileOutputStream fos = new FileOutputStream(f);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
 
@@ -398,7 +403,7 @@ public class Indexacion implements Serializable
 
     public void leer_hashtable() throws IOException, ClassNotFoundException
     {
-        File f = new File("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\Hashtable");
+        File f = new File("C:\\Users\\Nico\\Documents\\Facu\\4º\\DLC\\TP\\MotorDeBusquedaTPI\\Hashtable");
 
         FileInputStream fis = new FileInputStream(f);
         ObjectInputStream ois = new ObjectInputStream(fis);

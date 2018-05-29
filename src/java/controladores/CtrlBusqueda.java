@@ -9,6 +9,7 @@ import clases.Consulta;
 import clases.Documento;
 import clases.Helper;
 import clases.Indexacion;
+import clases.Indexacion2;
 import clases.Termino;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,7 +40,7 @@ public class CtrlBusqueda extends HttpServlet
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    static Indexacion index = Helper.index;
+    static Indexacion2 index = Helper.index;
     static Hashtable<String, Termino> ht;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -47,27 +48,18 @@ public class CtrlBusqueda extends HttpServlet
     {
         if (!Helper.indexado)
         {
-            if (Helper.existe_indexacion("C:\\Users\\gasto\\Documents\\NetBeansProjects\\MotorDeBusquedaTPI\\Indexacion"))
-            {
-                try
-                {
-                    Helper.leer_indexacion();
-                    ht = Helper.getHt();
-                }
-                catch(Exception ex)
-                {
-                    System.out.println("Error");
-                }
-                
+          
+            if(index==null){
+                index= new Indexacion2();
             }
-            else
-            {
-                Helper.armarVocabulario();            
-                ht = Helper.getHt();
-                Helper.guardar_indexacion();
-            }          
+            Helper.armarVocabulario();            
+                
+//                Helper.guardar_indexacion();
+            Helper.indexado=true;
         }
-        Helper.indexado = true;
+        ht = Helper.getHt();
+        Indexacion2 ind=Helper.index;
+        //Helper.indexado = true;
         String titulo = "Error";
         String dest = "/error.jsp";
         ErrorMsg errorMsg = null;
